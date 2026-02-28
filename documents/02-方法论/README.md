@@ -6,6 +6,7 @@
 
 - [Canvas白板驱动开发](./图形化AI协作-Canvas白板驱动开发.md) - 图形是第一公民，代码是白板的序列化形式
 - [AI蜂群协作](./AI蜂群协作-tmux多Agent协作系统.md) - 基于 tmux 的多 AI Agent 协作系统
+- [Cursor本地自动化发布](./Cursor本地自动化发布-浏览器Agent操作平台.md) - 基于 MCP 浏览器自动化的多平台内容发布
 
 ## 📖 工具教程
 
