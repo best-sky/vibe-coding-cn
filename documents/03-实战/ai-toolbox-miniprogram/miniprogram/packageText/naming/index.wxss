@@ -1,0 +1,121 @@
+.page {
+  min-height: 100vh;
+  padding: 48rpx 40rpx 32rpx;
+  box-sizing: border-box;
+}
+
+.nav-row {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+}
+
+.back {
+  font-size: 48rpx;
+  width: 72rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+}
+
+.title {
+  display: block;
+  font-size: 60rpx;
+  line-height: 84rpx;
+  font-weight: 700;
+}
+
+.sub {
+  display: block;
+  margin-top: 8rpx;
+  color: #737373;
+  font-size: 28rpx;
+}
+
+.input-wrap {
+  margin-top: 24rpx;
+  background: #f5f5f5;
+  border-radius: 40rpx;
+  padding: 24rpx;
+}
+
+.input {
+  width: 100%;
+  height: 184rpx;
+  font-size: 30rpx;
+  line-height: 1.6;
+  color: #171717;
+}
+
+.placeholder {
+  color: #a3a3a3;
+}
+
+.label {
+  margin-top: 24rpx;
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.name-list {
+  margin-top: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.name-card {
+  min-height: 144rpx;
+  border-radius: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24rpx;
+}
+
+.name-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  flex: 1;
+}
+
+.name-text {
+  font-size: 34rpx;
+  color: #171717;
+  font-weight: 700;
+}
+
+.name-meaning {
+  font-size: 24rpx;
+  color: #525252;
+  line-height: 1.5;
+}
+
+.copy-round {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: #f5f5f5;
+  color: #404040;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  line-height: 1;
+}
+
+.empty {
+  color: #a3a3a3;
+  font-size: 24rpx;
+}
+
+.status {
+  margin-top: 20rpx;
+  color: #3b82f6;
+  font-size: 24rpx;
+}
+
+.bottom-btn {
+  margin-top: 32rpx;
+}

@@ -8,6 +8,7 @@
 |:---|:---|
 | [polymarket-dev](./polymarket-dev/) | Polymarket 数据分析 |
 | [telegram-dev](./telegram-dev/) | Telegram Bot 开发 |
+| [ai-toolbox-miniprogram](./ai-toolbox-miniprogram/) | 智藏微信小程序（个人开发者纯前端 + 云开发） |
 | [web-app](./web-app/) | Web 应用开发 |
 
 ## 🔗 相关资源

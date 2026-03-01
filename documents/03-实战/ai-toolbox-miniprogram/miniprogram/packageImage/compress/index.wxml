@@ -1,0 +1,31 @@
+<view class="page safe-area-bottom">
+  <view class="nav-row">
+    <text class="back" bindtap="onBack">←</text>
+  </view>
+
+  <text class="title">图片压缩</text>
+  <text class="sub">极速无损，自由调节压缩质量</text>
+
+  <view class="preview" bindtap="onChooseImage">
+    <image wx:if="{{previewPath}}" class="preview-img" mode="aspectFit" src="{{previewPath}}"></image>
+    <text wx:else class="preview-hint">选择要压缩的图片</text>
+  </view>
+
+  <view class="size-row" wx:if="{{sourcePath}}">
+    <text class="size-text">原图 {{sourceSizeKb}}KB</text>
+    <text class="size-text">压缩后 {{compressedSizeKb}}KB</text>
+  </view>
+
+  <text class="label">压缩质量</text>
+  <view class="quality-row">
+    <view class="quality-item {{selectedQuality==='high'?'active':''}}" data-key="high" bindtap="onSelectQuality">高清(80%)</view>
+    <view class="quality-item {{selectedQuality==='mid'?'active':''}}" data-key="mid" bindtap="onSelectQuality">中等(50%)</view>
+    <view class="quality-item {{selectedQuality==='low'?'active':''}}" data-key="low" bindtap="onSelectQuality">极小(20%)</view>
+  </view>
+
+  <view class="status" wx:if="{{processing}}">压缩处理中...</view>
+
+  <view class="bottom-btn primary-btn" bindtap="onSave">保存压缩图片</view>
+
+  <canvas canvas-id="compressCanvas" class="hidden-canvas"></canvas>
+</view>

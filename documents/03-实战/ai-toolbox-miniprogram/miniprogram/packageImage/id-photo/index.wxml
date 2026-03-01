@@ -1,0 +1,46 @@
+<view class="page safe-area-bottom">
+  <view class="nav-row">
+    <text class="back" bindtap="onBack">←</text>
+  </view>
+
+  <text class="title">证件照制作</text>
+  <text class="sub">一键更换底色，支持多种证件尺寸</text>
+
+  <view class="preview" bindtap="onChooseImage">
+    <image wx:if="{{previewPath}}" class="preview-img" mode="aspectFit" src="{{previewPath}}"></image>
+    <block wx:else>
+      <text class="preview-hint">图片预览区域</text>
+      <view class="watermark">62%</view>
+    </block>
+  </view>
+
+  <text class="label">底色</text>
+  <view class="color-row">
+    <view
+      wx:for="{{colors}}"
+      wx:key="key"
+      class="color-dot {{activeColor===item.key?'dot-active':''}}"
+      style="background: {{item.color}};"
+      data-key="{{item.key}}"
+      bindtap="onSelectColor"
+    ></view>
+  </view>
+
+  <text class="label">尺寸</text>
+  <view class="size-row">
+    <view
+      wx:for="{{sizes}}"
+      wx:key="key"
+      class="size-item {{activeSize===item.key?'active':''}}"
+      data-key="{{item.key}}"
+      bindtap="onSelectSize"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <view wx:if="{{processing}}" class="status">处理中...</view>
+  <view class="bottom-btn primary-btn" bindtap="onSave">保存到相册</view>
+
+  <canvas id="idPhotoCanvas" type="2d" class="hidden-canvas"></canvas>
+</view>

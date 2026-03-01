@@ -1,0 +1,41 @@
+<view class="page safe-area-bottom">
+  <view class="nav-row">
+    <text class="back" bindtap="onBack">←</text>
+  </view>
+
+  <text class="title">字数统计</text>
+  <text class="sub">精准统计中英文字数、标点及段落</text>
+
+  <view class="input-wrap">
+    <textarea
+      class="input"
+      placeholder="在此粘贴或输入需要统计的文字..."
+      placeholder-class="placeholder"
+      value="{{text}}"
+      bindinput="onInput"
+    ></textarea>
+  </view>
+
+  <view class="stats card">
+    <view class="stats-row">
+      <view class="stat-item">
+        <text class="stat-num">{{stats.words}}</text>
+        <text class="stat-key">字数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">{{stats.chars}}</text>
+        <text class="stat-key">字符</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">{{stats.lines}}</text>
+        <text class="stat-key">行数</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num">{{stats.paragraphs}}</text>
+        <text class="stat-key">段落</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-btn ghost-btn" bindtap="onClear">清空内容</view>
+</view>

@@ -1,0 +1,9 @@
+{
+  "desc": "智藏小程序 sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "ai-toolbox-miniprogram",
+  "version": "1.0.0",
+  "private": true,
+  "description": "智藏微信小程序",
+  "scripts": {
+    "lint": "echo \"Use WeChat DevTools lint\""
+  },
+  "dependencies": {
+    "tdesign-miniprogram": "latest"
+  }
+}

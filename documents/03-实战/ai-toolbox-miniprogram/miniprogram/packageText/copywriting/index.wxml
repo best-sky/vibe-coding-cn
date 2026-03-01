@@ -1,0 +1,43 @@
+<view class="page safe-area-bottom">
+  <view class="nav-row">
+    <text class="back" bindtap="onBack">←</text>
+  </view>
+
+  <text class="title">AI 文案生成</text>
+  <text class="sub">输入主题，生成朋友圈/小红书文案</text>
+
+  <text class="label">输入关键词</text>
+  <view class="input-wrap">
+    <textarea
+      class="input"
+      placeholder="例如：春季防晒新品，面向大学生，语气轻松&#10;&#10;生成 3 条不同风格文案"
+      placeholder-class="placeholder"
+      value="{{prompt}}"
+      bindinput="onInput"
+    ></textarea>
+  </view>
+
+  <view class="chip-row">
+    <view
+      wx:for="{{chips}}"
+      wx:key="*this"
+      class="chip {{selectedType===item?'chip-active':''}}"
+      data-value="{{item}}"
+      bindtap="onSelectType"
+    >
+      {{item}}
+    </view>
+  </view>
+
+  <text class="label">生成结果</text>
+  <view class="result-card card">
+    <view class="result-head">
+      <text class="result-title">文案输出</text>
+      <text class="copy-btn" bindtap="onCopy">复制</text>
+    </view>
+    <text class="result-body">{{result || '生成内容将显示在这里'}}</text>
+  </view>
+
+  <view class="status" wx:if="{{generating}}">生成中...</view>
+  <view class="bottom-btn primary-btn" bindtap="onGenerate">生成文案</view>
+</view>

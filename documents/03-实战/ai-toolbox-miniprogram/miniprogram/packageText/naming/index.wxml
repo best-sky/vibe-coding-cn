@@ -1,0 +1,33 @@
+<view class="page safe-area-bottom">
+  <view class="nav-row">
+    <text class="back" bindtap="onBack">←</text>
+  </view>
+
+  <text class="title">AI 起名字</text>
+  <text class="sub">输入要求，AI 为你生成好名字</text>
+
+  <view class="input-wrap">
+    <textarea
+      class="input"
+      placeholder="例如：男宝宝起名，姓李，期望包含健康、阳光的寓意，不要太生僻的字。"
+      placeholder-class="placeholder"
+      value="{{requirement}}"
+      bindinput="onInput"
+    ></textarea>
+  </view>
+
+  <text class="label">推荐名字</text>
+  <view class="name-list">
+    <view wx:for="{{names}}" wx:key="name" class="name-card card">
+      <view class="name-info">
+        <text class="name-text">{{item.name}}</text>
+        <text class="name-meaning">{{item.meaning}}</text>
+      </view>
+      <view class="copy-round" data-name="{{item.name}}" bindtap="onCopyName">+</view>
+    </view>
+    <view wx:if="{{!names.length && !loading}}" class="empty">暂无结果，点击下方按钮开始生成</view>
+  </view>
+
+  <view class="status" wx:if="{{loading}}">生成中...</view>
+  <view class="bottom-btn primary-btn" bindtap="onGenerate">生成名字</view>
+</view>
