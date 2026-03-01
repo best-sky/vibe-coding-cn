@@ -14,10 +14,17 @@ Page({
     previewPath: "",
     outputPath: "",
     processing: false,
+    statusBarHeight: 44,
   },
 
   onLoad() {
     recordToolUse("id-photo");
+    const app = getApp();
+    if (app && app.globalData) {
+      this.setData({
+        statusBarHeight: app.globalData.statusBarHeight
+      });
+    }
   },
 
   onBack() {

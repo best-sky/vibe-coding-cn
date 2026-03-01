@@ -6,10 +6,17 @@ Page({
     requirement: "",
     loading: false,
     names: [],
+    statusBarHeight: 44,
   },
 
   onLoad() {
     recordToolUse("naming");
+    const app = getApp();
+    if (app && app.globalData) {
+      this.setData({
+        statusBarHeight: app.globalData.statusBarHeight
+      });
+    }
   },
 
   onBack() {

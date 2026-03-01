@@ -1,7 +1,86 @@
 page {
-  background: #fafafa;
-  color: #171717;
-  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  /* 主色 — 唯一点缀 */
+  --color-primary: #3B82F6;
+  --color-primary-hover: #2563EB;
+  --color-primary-bg: rgba(59, 130, 246, 0.06);
+
+  /* 文字 */
+  --color-text-title: #171717;
+  --color-text-body: #404040;
+  --color-text-secondary: #737373;
+  --color-text-placeholder: #A3A3A3;
+
+  /* 背景 */
+  --color-bg-page: #FAFAFA;
+  --color-bg-white: #FFFFFF;
+  --color-bg-input: #F5F5F5;
+  --color-bg-hover: #F5F5F5;
+
+  /* 边界 */
+  --color-border: #E5E5E5;
+  --color-divider: #F0F0F0;
+
+  /* 功能色 */
+  --color-success: #22C55E;
+  --color-warning: #EAB308;
+  --color-error: #EF4444;
+
+  /* 圆角 — 偏大，柔和感 */
+  --radius-sm: 12rpx;
+  --radius-md: 20rpx;
+  --radius-lg: 28rpx;
+  --radius-xl: 40rpx;
+  --radius-full: 999rpx;
+
+  /* 阴影 — 极淡，只做层次暗示 */
+  --shadow-xs: 0 1rpx 4rpx rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+  --shadow-float: 0 8rpx 32rpx rgba(0, 0, 0, 0.08);
+
+  /* 间距 — 宽松呼吸 */
+  --space-xs: 8rpx;
+  --space-sm: 16rpx;
+  --space-md: 24rpx;
+  --space-lg: 40rpx;
+  --space-xl: 64rpx;
+  --space-2xl: 96rpx;
+
+  /* 页面安全边距 */
+  --page-padding: 40rpx;
+
+  /* 字体 */
+  --font-xs: 22rpx;
+  --font-sm: 24rpx;
+  --font-base: 28rpx;
+  --font-md: 32rpx;
+  --font-lg: 36rpx;
+  --font-xl: 44rpx;
+  --font-2xl: 56rpx;
+
+  /* 动画 */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  
+  /* TDesign覆盖 */
+  --td-brand-color: #3B82F6;
+  --td-brand-color-light: rgba(59, 130, 246, 0.06);
+  --td-warning-color: #EAB308;
+  --td-error-color: #EF4444;
+  --td-success-color: #22C55E;
+  --td-radius-default: 20rpx;
+  --td-radius-large: 28rpx;
+  --td-font-size: 28rpx;
+  --td-bg-color-page: #FAFAFA;
+  --td-bg-color-container: #FFFFFF;
+
+  background: var(--color-bg-page);
+  color: var(--color-text-title);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
   min-height: 100%;
   box-sizing: border-box;
 }
@@ -10,43 +89,43 @@ page {
   padding-bottom: calc(env(safe-area-inset-bottom) + 24rpx);
 }
 
-.card {
-  background: #ffffff;
-  border-radius: 24rpx;
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.04);
+.primary-btn {
+  width: calc(100% - 80rpx);
+  height: 100rpx;
+  margin: 0 var(--page-padding);
+  border-radius: var(--radius-xl);
+  background: var(--color-text-title);
+  color: #FFFFFF;
+  font-size: var(--font-base);
+  font-weight: 500;
+  border: none;
+  line-height: 100rpx;
+  text-align: center;
+  letter-spacing: 2rpx;
+  transition: transform var(--duration-normal) var(--ease-spring), opacity var(--duration-fast) ease;
 }
 
-.primary-btn {
-  height: 112rpx;
-  border-radius: 56rpx;
-  background: #171717;
-  color: #ffffff;
-  font-size: 32rpx;
-  line-height: 112rpx;
-  text-align: center;
-  font-weight: 600;
+.primary-btn:active {
+  transform: scale(0.97);
+  opacity: 0.85;
 }
 
 .ghost-btn {
-  height: 112rpx;
-  border-radius: 56rpx;
-  background: #f5f5f5;
-  color: #404040;
-  font-size: 32rpx;
-  line-height: 112rpx;
-  text-align: center;
+  width: calc(100% - 80rpx);
+  height: 100rpx;
+  margin: 0 var(--page-padding);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-input);
+  color: var(--color-text-body);
+  font-size: var(--font-base);
   font-weight: 500;
+  border: none;
+  line-height: 100rpx;
+  text-align: center;
+  transition: transform var(--duration-normal) var(--ease-spring), background var(--duration-fast) ease;
 }
 
-.section-title {
-  font-size: 36rpx;
-  line-height: 48rpx;
-  font-weight: 600;
-  color: #171717;
-}
-
-.desc {
-  font-size: 28rpx;
-  line-height: 40rpx;
-  color: #737373;
+.ghost-btn:active {
+  transform: scale(0.97);
+  background: var(--color-border);
 }

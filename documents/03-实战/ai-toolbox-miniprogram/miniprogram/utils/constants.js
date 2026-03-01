@@ -12,15 +12,15 @@ const TOOL_LIST = [
     desc: "一键换底色与尺寸裁剪",
     category: "image",
     path: "/packageImage/id-photo/index",
-    icon: "🪪",
+    icon: "camera",
   },
   {
     id: "compress",
     name: "图片压缩",
-    desc: "无损压缩，体积更小",
+    desc: "质量压缩，体积更小",
     category: "image",
     path: "/packageImage/compress/index",
-    icon: "🗜️",
+    icon: "minimize",
   },
   {
     id: "copywriting",
@@ -28,7 +28,7 @@ const TOOL_LIST = [
     desc: "小红书/朋友圈文案",
     category: "text",
     path: "/packageText/copywriting/index",
-    icon: "✍️",
+    icon: "pen-tool",
   },
   {
     id: "naming",
@@ -36,7 +36,7 @@ const TOOL_LIST = [
     desc: "多场景智能取名",
     category: "text",
     path: "/packageText/naming/index",
-    icon: "📛",
+    icon: "sparkles",
   },
   {
     id: "word-count",
@@ -44,7 +44,31 @@ const TOOL_LIST = [
     desc: "实时统计字数与段落",
     category: "util",
     path: "/packageUtil/word-count/index",
-    icon: "🔢",
+    icon: "hash",
+  },
+  {
+    id: "qrcode",
+    name: "二维码生成",
+    desc: "文字链接一键转码",
+    category: "util",
+    path: "/packageUtil/qrcode/index",
+    icon: "smartphone",
+  },
+  {
+    id: "collage",
+    name: "图片拼图",
+    desc: "2/4/6/9 宫格拼接",
+    category: "image",
+    path: "/packageImage/collage/index",
+    icon: "image",
+  },
+  {
+    id: "watermark",
+    name: "图片加水印",
+    desc: "平铺/单个文字水印",
+    category: "image",
+    path: "/packageImage/watermark/index",
+    icon: "shield",
   },
   {
     id: "coming-soon",
@@ -52,7 +76,7 @@ const TOOL_LIST = [
     desc: "持续上新中",
     category: "all",
     path: "",
-    icon: "✨",
+    icon: "more-horizontal",
   },
 ];
 

@@ -7,6 +7,6 @@
     "lint": "echo \"Use WeChat DevTools lint\""
   },
   "dependencies": {
-    "tdesign-miniprogram": "latest"
+    "tdesign-miniprogram": "^1.12.3"
   }
 }

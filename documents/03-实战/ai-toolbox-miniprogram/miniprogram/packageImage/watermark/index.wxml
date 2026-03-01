@@ -1,0 +1,102 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">图片加水印</text>
+    <text class="sub">支持单个与平铺文字水印，防盗图更省心</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <view class="preview" bindtap="onChooseImage">
+        <image wx:if="{{previewPath}}" class="preview-img" mode="aspectFit" src="{{previewPath}}"></image>
+        <text wx:else class="preview-hint">点击选择图片</text>
+      </view>
+
+      <text class="label">水印文字</text>
+      <view class="input-wrap">
+        <input
+          class="input"
+          maxlength="30"
+          placeholder="请输入水印文字"
+          placeholder-class="placeholder"
+          value="{{watermarkText}}"
+          bindinput="onInputText"
+        />
+      </view>
+
+      <text class="label">模式</text>
+      <view class="chip-row">
+        <view class="chip {{mode==='tile'?'chip-active':''}}" data-mode="tile" bindtap="onSelectMode">平铺</view>
+        <view class="chip {{mode==='single'?'chip-active':''}}" data-mode="single" bindtap="onSelectMode">单个</view>
+      </view>
+
+      <text class="label">字号 {{fontSize}}px</text>
+      <slider
+        class="slider"
+        min="14"
+        max="72"
+        step="1"
+        value="{{fontSize}}"
+        activeColor="#171717"
+        backgroundColor="#E5E5E5"
+        bindchanging="onFontSizeChange"
+        bindchange="onFontSizeChange"
+      />
+
+      <text class="label">透明度 {{opacityPercent}}%</text>
+      <slider
+        class="slider"
+        min="10"
+        max="100"
+        step="1"
+        value="{{opacityPercent}}"
+        activeColor="#171717"
+        backgroundColor="#E5E5E5"
+        bindchanging="onOpacityChange"
+        bindchange="onOpacityChange"
+      />
+
+      <text class="label">旋转 {{rotation}}°</text>
+      <slider
+        class="slider"
+        min="-90"
+        max="90"
+        step="1"
+        value="{{rotation}}"
+        activeColor="#171717"
+        backgroundColor="#E5E5E5"
+        bindchanging="onRotationChange"
+        bindchange="onRotationChange"
+      />
+
+      <text class="label">颜色</text>
+      <view class="color-row">
+        <view
+          wx:for="{{colorPresets}}"
+          wx:key="*this"
+          class="color-dot {{color === item ? 'color-dot-active' : ''}}"
+          style="background: {{item}}"
+          data-color="{{item}}"
+          bindtap="onSelectColor"
+        ></view>
+      </view>
+
+      <text class="status" wx:if="{{processing}}">水印处理中...</text>
+
+      <view class="btn-row">
+        <view class="ghost-btn action-btn" bindtap="onChooseImage">重新选图</view>
+        <view class="primary-btn action-btn" bindtap="onSave">保存图片</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <canvas
+    canvas-id="watermarkCanvas"
+    class="hidden-canvas"
+    style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
+  ></canvas>
+</view>

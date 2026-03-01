@@ -7,6 +7,7 @@ const QUALITY_MAP = {
   mid: 0.5,
   low: 0.2,
 };
+const MAX_OUTPUT_SIDE = 2048;
 
 function getFileSizeKb(path) {
   try {
@@ -26,10 +27,19 @@ Page({
     compressedSizeKb: 0,
     previewPath: "",
     processing: false,
+    statusBarHeight: 44,
+    canvasWidth: 750,
+    canvasHeight: 750,
   },
 
   onLoad() {
     recordToolUse("compress");
+    const app = getApp();
+    if (app && app.globalData) {
+      this.setData({
+        statusBarHeight: app.globalData.statusBarHeight
+      });
+    }
   },
 
   onBack() {
@@ -67,18 +77,25 @@ Page({
     try {
       const info = await getImageInfo(sourcePath);
       const quality = QUALITY_MAP[selectedQuality];
+      const { width: drawWidth, height: drawHeight } = this.calcOutputSize(info.width, info.height);
+      this.setData({
+        canvasWidth: drawWidth,
+        canvasHeight: drawHeight,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 0));
       const ctx = wx.createCanvasContext("compressCanvas", this);
-      ctx.drawImage(sourcePath, 0, 0, info.width, info.height);
+      ctx.clearRect(0, 0, drawWidth, drawHeight);
+      ctx.drawImage(sourcePath, 0, 0, drawWidth, drawHeight);
       await new Promise((resolve) => ctx.draw(false, resolve));
 
       const out = await canvasToTempFilePath({
         canvasId: "compressCanvas",
         fileType: "jpg",
         quality,
-        width: info.width,
-        height: info.height,
-        destWidth: info.width,
-        destHeight: info.height,
+        width: drawWidth,
+        height: drawHeight,
+        destWidth: drawWidth,
+        destHeight: drawHeight,
       });
       this.setData({
         compressedPath: out.tempFilePath,
@@ -107,8 +124,26 @@ Page({
         }
       },
       () => {
-        wx.showToast({ title: "未完成广告，仍允许保存", icon: "none" });
+        wx.showToast({ title: "未完整观看广告，图片未保存", icon: "none" });
       }
     );
+  },
+
+  calcOutputSize(width, height) {
+    if (!width || !height) {
+      return { width: 750, height: 750 };
+    }
+    const longestSide = Math.max(width, height);
+    if (longestSide <= MAX_OUTPUT_SIDE) {
+      return {
+        width: Math.round(width),
+        height: Math.round(height),
+      };
+    }
+    const scale = MAX_OUTPUT_SIDE / longestSide;
+    return {
+      width: Math.max(1, Math.round(width * scale)),
+      height: Math.max(1, Math.round(height * scale)),
+    };
   },
 });

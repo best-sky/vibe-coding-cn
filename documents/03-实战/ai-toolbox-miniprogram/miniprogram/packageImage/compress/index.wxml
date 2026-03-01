@@ -1,10 +1,11 @@
 <view class="page safe-area-bottom">
-  <view class="nav-row">
-    <text class="back" bindtap="onBack">←</text>
+  <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+  <view class="nav-row" bindtap="onBack">
+    <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
   </view>
 
   <text class="title">图片压缩</text>
-  <text class="sub">极速无损，自由调节压缩质量</text>
+  <text class="sub">极速压缩，自由调节压缩质量</text>
 
   <view class="preview" bindtap="onChooseImage">
     <image wx:if="{{previewPath}}" class="preview-img" mode="aspectFit" src="{{previewPath}}"></image>
@@ -27,5 +28,9 @@
 
   <view class="bottom-btn primary-btn" bindtap="onSave">保存压缩图片</view>
 
-  <canvas canvas-id="compressCanvas" class="hidden-canvas"></canvas>
+  <canvas
+    canvas-id="compressCanvas"
+    class="hidden-canvas"
+    style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
+  ></canvas>
 </view>

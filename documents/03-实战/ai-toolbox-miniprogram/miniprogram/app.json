@@ -3,7 +3,7 @@
   "subpackages": [
     {
       "root": "packageImage",
-      "pages": ["compress/index", "id-photo/index"]
+      "pages": ["compress/index", "id-photo/index", "collage/index", "watermark/index"]
     },
     {
       "root": "packageText",
@@ -11,9 +11,12 @@
     },
     {
       "root": "packageUtil",
-      "pages": ["word-count/index"]
+      "pages": ["word-count/index", "qrcode/index"]
     }
   ],
+  "useExtendedLib": {
+    "weui": true
+  },
   "window": {
     "navigationBarTitleText": "智藏",
     "navigationBarTextStyle": "black",
@@ -29,11 +32,15 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "首页"
+        "text": "首页",
+        "iconPath": "assets/tabbar/home.png",
+        "selectedIconPath": "assets/tabbar/home-active.png"
       },
       {
         "pagePath": "pages/mine/mine",
-        "text": "我的"
+        "text": "我的",
+        "iconPath": "assets/tabbar/user.png",
+        "selectedIconPath": "assets/tabbar/user-active.png"
       }
     ]
   },

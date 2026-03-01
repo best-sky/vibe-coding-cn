@@ -1,31 +1,24 @@
 const { TOOL_LIST, TOOL_CATEGORIES } = require("../../utils/constants");
-const { getUsageMap, getRecentTools, recordToolUse } = require("../../utils/storage");
+const { getUsageMap, recordToolUse } = require("../../utils/storage");
+
+const app = getApp();
 
 Page({
   data: {
     searchKeyword: "",
-    activeCategory: "all",
+    statusBarHeight: 44,
     categories: [
-      { key: "all", name: TOOL_CATEGORIES.all },
-      { key: "image", name: TOOL_CATEGORIES.image },
-      { key: "text", name: TOOL_CATEGORIES.text },
-      { key: "util", name: TOOL_CATEGORIES.util },
+      { key: "image", name: TOOL_CATEGORIES.image, tools: [] },
+      { key: "text", name: TOOL_CATEGORIES.text, tools: [] },
+      { key: "util", name: TOOL_CATEGORIES.util, tools: [] },
     ],
-    tools: [],
-    filteredTools: [],
-    recentTools: [],
-    banners: [
-      {
-        id: "banner1",
-        image: "https://images.unsplash.com/photo-1739001410808-0b3ee88d83c9?auto=format&fit=crop&w=1080&q=80",
-        title: "证件照快速换底色",
-      },
-      {
-        id: "banner2",
-        image: "https://images.unsplash.com/photo-1705255620917-fcc1300ca0fa?auto=format&fit=crop&w=1080&q=80",
-        title: "AI 文案一键生成",
-      },
-    ],
+    filteredCategories: []
+  },
+
+  onLoad() {
+    this.setData({
+      statusBarHeight: app.globalData.statusBarHeight
+    });
   },
 
   onShow() {
@@ -34,19 +27,30 @@ Page({
 
   refreshTools() {
     const usageMap = getUsageMap();
-    const recentIds = getRecentTools();
     const tools = TOOL_LIST.map((tool) => ({
       ...tool,
       usageCount: usageMap[tool.id] || 0,
     }));
-    const recentTools = recentIds
-      .map((id) => tools.find((tool) => tool.id === id))
-      .filter(Boolean);
+
+    // 初始化分类
+    let categoriesData = [
+      { key: "image", name: TOOL_CATEGORIES.image, tools: [] },
+      { key: "text", name: TOOL_CATEGORIES.text, tools: [] },
+      { key: "util", name: TOOL_CATEGORIES.util, tools: [] },
+    ];
+
+    // 将工具分配到各自的分类中
+    tools.forEach(tool => {
+      const cat = categoriesData.find(c => c.key === tool.category);
+      if (cat) {
+        cat.tools.push(tool);
+      }
+    });
 
     this.setData({
-      tools,
-      recentTools,
+      categories: categoriesData,
     });
+    
     this.applyFilters();
   },
 
@@ -57,25 +61,28 @@ Page({
     this.applyFilters();
   },
 
-  onCategoryTap(e) {
-    this.setData({
-      activeCategory: e.currentTarget.dataset.key,
-    });
-    this.applyFilters();
-  },
-
   applyFilters() {
-    const { tools, searchKeyword, activeCategory } = this.data;
+    const { categories, searchKeyword } = this.data;
     const keyword = (searchKeyword || "").trim().toLowerCase();
-    const filteredTools = tools.filter((tool) => {
-      const matchCategory = activeCategory === "all" || tool.category === activeCategory;
-      const matchKeyword =
-        !keyword ||
-        tool.name.toLowerCase().includes(keyword) ||
-        tool.desc.toLowerCase().includes(keyword);
-      return matchCategory && matchKeyword;
+    
+    let filteredCategories = [];
+
+    categories.forEach(cat => {
+      const filteredTools = cat.tools.filter((tool) => {
+        return !keyword || 
+               tool.name.toLowerCase().includes(keyword) || 
+               tool.desc.toLowerCase().includes(keyword);
+      });
+      
+      if (filteredTools.length > 0) {
+        filteredCategories.push({
+          ...cat,
+          tools: filteredTools
+        });
+      }
     });
-    this.setData({ filteredTools });
+
+    this.setData({ filteredCategories });
   },
 
   onToolTap(e) {

@@ -1,6 +1,7 @@
 <view class="page safe-area-bottom">
-  <view class="nav-row">
-    <text class="back" bindtap="onBack">←</text>
+  <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+  <view class="nav-row" bindtap="onBack">
+    <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
   </view>
 
   <text class="title">证件照制作</text>

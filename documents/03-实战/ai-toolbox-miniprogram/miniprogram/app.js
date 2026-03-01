@@ -2,6 +2,7 @@ App({
   globalData: {
     themeColor: "#171717",
     cloudReady: false,
+    statusBarHeight: 44,
   },
   onLaunch() {
     if (wx.cloud) {
@@ -11,5 +12,7 @@ App({
       });
       this.globalData.cloudReady = true;
     }
+    const systemInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync();
+    this.globalData.statusBarHeight = systemInfo.statusBarHeight || 44;
   },
 });

@@ -23,10 +23,17 @@ Page({
       lines: 0,
       paragraphs: 0,
     },
+    statusBarHeight: 44,
   },
 
   onLoad() {
     recordToolUse("word-count");
+    const app = getApp();
+    if (app && app.globalData) {
+      this.setData({
+        statusBarHeight: app.globalData.statusBarHeight
+      });
+    }
   },
 
   onBack() {

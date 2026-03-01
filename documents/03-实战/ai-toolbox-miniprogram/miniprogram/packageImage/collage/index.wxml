@@ -1,0 +1,72 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">图片拼图</text>
+    <text class="sub">支持 2/4/6/9 宫格，快速生成社媒拼图</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <text class="label">模板</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{templates}}"
+          wx:key="key"
+          class="chip {{activeTemplate === item.key ? 'chip-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onSelectTemplate"
+        >
+          {{item.label}}
+        </view>
+      </view>
+
+      <view class="preview" bindtap="onChooseImages">
+        <image wx:if="{{previewPath}}" class="preview-img" mode="aspectFit" src="{{previewPath}}"></image>
+        <text wx:else class="preview-hint">点击选择图片并自动拼图</text>
+      </view>
+
+      <text class="label">间距 {{gap}}px</text>
+      <slider
+        class="slider"
+        min="0"
+        max="24"
+        step="1"
+        value="{{gap}}"
+        activeColor="#171717"
+        backgroundColor="#E5E5E5"
+        bindchanging="onGapChange"
+        bindchange="onGapChange"
+      />
+
+      <text class="label">圆角 {{radius}}px</text>
+      <slider
+        class="slider"
+        min="0"
+        max="60"
+        step="1"
+        value="{{radius}}"
+        activeColor="#171717"
+        backgroundColor="#E5E5E5"
+        bindchanging="onRadiusChange"
+        bindchange="onRadiusChange"
+      />
+
+      <text class="status" wx:if="{{processing}}">拼图处理中...</text>
+
+      <view class="btn-row">
+        <view class="ghost-btn action-btn" bindtap="onChooseImages">重新选图</view>
+        <view class="primary-btn action-btn" bindtap="onSave">保存拼图</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <canvas
+    canvas-id="collageCanvas"
+    class="hidden-canvas"
+    style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
+  ></canvas>
+</view>

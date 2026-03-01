@@ -1,0 +1,78 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">二维码生成</text>
+    <text class="sub">输入文字或链接，快速生成高清二维码</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <view class="input-wrap">
+        <textarea
+          class="input"
+          maxlength="-1"
+          placeholder="请输入文本、网址或联系方式..."
+          placeholder-class="placeholder"
+          value="{{content}}"
+          bindinput="onInput"
+        ></textarea>
+      </view>
+
+      <text class="label">输出尺寸</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{sizeOptions}}"
+          wx:key="*this"
+          class="chip {{activeSizeIndex === index ? 'chip-active' : ''}}"
+          data-index="{{index}}"
+          bindtap="onSelectSize"
+        >
+          {{item}}px
+        </view>
+      </view>
+
+      <text class="label">前景色</text>
+      <view class="color-row">
+        <view
+          wx:for="{{fgColors}}"
+          wx:key="*this"
+          class="color-dot {{activeFg === item ? 'color-dot-active' : ''}}"
+          style="background: {{item}}"
+          data-color="{{item}}"
+          bindtap="onSelectFg"
+        ></view>
+      </view>
+
+      <text class="label">背景色</text>
+      <view class="color-row">
+        <view
+          wx:for="{{bgColors}}"
+          wx:key="*this"
+          class="color-dot {{activeBg === item ? 'color-dot-active' : ''}} {{item === 'transparent' ? 'transparent-dot' : ''}}"
+          style="background: {{item === 'transparent' ? '#FFFFFF' : item}}"
+          data-color="{{item}}"
+          bindtap="onSelectBg"
+        ></view>
+      </view>
+
+      <view class="preview-wrap">
+        <canvas type="2d" id="qrCanvas" class="preview-canvas"></canvas>
+        <text wx:if="{{!generated}}" class="preview-hint">生成后在此预览</text>
+      </view>
+
+      <text class="status" wx:if="{{rendering}}">二维码生成中...</text>
+      <text class="status" wx:if="{{generated}}">矩阵：{{matrixSize}} × {{matrixSize}}</text>
+
+      <view class="btn-row">
+        <view class="ghost-btn action-btn" bindtap="onGenerate">生成二维码</view>
+        <view class="primary-btn action-btn" bindtap="onSave">保存到相册</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <canvas type="2d" id="saveCanvas" class="hidden-canvas"></canvas>
+</view>

@@ -9,10 +9,17 @@ Page({
     chips: ["小红书种草", "朋友圈短文", "广告语", "自定义"],
     result: "",
     generating: false,
+    statusBarHeight: 44,
   },
 
   onLoad() {
     recordToolUse("copywriting");
+    const app = getApp();
+    if (app && app.globalData) {
+      this.setData({
+        statusBarHeight: app.globalData.statusBarHeight
+      });
+    }
   },
 
   onBack() {
