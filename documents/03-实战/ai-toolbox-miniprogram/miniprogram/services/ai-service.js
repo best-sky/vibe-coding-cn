@@ -7,7 +7,7 @@ function getModel() {
 
 async function streamChat(systemPrompt, userMessage, onChunk) {
   const model = getModel();
-  const stream = await model.streamText({
+  const res = await model.streamText({
     data: {
       model: "hunyuan-turbos-latest",
       messages: [
@@ -17,8 +17,15 @@ async function streamChat(systemPrompt, userMessage, onChunk) {
     },
   });
 
-  for await (const text of stream.textStream) {
-    if (typeof onChunk === "function") onChunk(text);
+  for await (let event of res.eventStream) {
+    if (event.data === "[DONE]") {
+      break;
+    }
+    const data = JSON.parse(event.data);
+    const text = data?.choices?.[0]?.delta?.content;
+    if (text && typeof onChunk === "function") {
+      onChunk(text);
+    }
   }
 }
 

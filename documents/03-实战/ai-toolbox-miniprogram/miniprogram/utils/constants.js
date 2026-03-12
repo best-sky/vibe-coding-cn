@@ -7,14 +7,6 @@ const TOOL_CATEGORIES = {
 
 const TOOL_LIST = [
   {
-    id: "id-photo",
-    name: "AI 证件照",
-    desc: "一键换底色与尺寸裁剪",
-    category: "image",
-    path: "/packageImage/id-photo/index",
-    icon: "camera",
-  },
-  {
     id: "compress",
     name: "图片压缩",
     desc: "质量压缩，体积更小",
@@ -37,6 +29,14 @@ const TOOL_LIST = [
     category: "text",
     path: "/packageText/naming/index",
     icon: "sparkles",
+  },
+  {
+    id: "nickname",
+    name: "AI 网名生成",
+    desc: "多风格个性网名",
+    category: "text",
+    path: "/packageText/nickname/index",
+    icon: "at-sign",
   },
   {
     id: "word-count",
@@ -69,6 +69,22 @@ const TOOL_LIST = [
     category: "image",
     path: "/packageImage/watermark/index",
     icon: "shield",
+  },
+  {
+    id: "subsidy",
+    name: "育儿补贴计算",
+    desc: "估算可领取的育儿补贴",
+    category: "util",
+    path: "/packageUtil/subsidy/index",
+    icon: "baby",
+  },
+  {
+    id: "password",
+    name: "随机密码",
+    desc: "高强度密码一键生成",
+    category: "util",
+    path: "/packageUtil/password/index",
+    icon: "lock",
   },
   {
     id: "coming-soon",

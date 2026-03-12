@@ -1,0 +1,105 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">随机密码</text>
+    <text class="sub">生成高强度随机密码，一键复制使用</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <view class="password-card">
+        <text class="password-text" user-select>{{password}}</text>
+        <view class="password-actions">
+          <view class="icon-btn" bindtap="onRefresh">
+            <text class="icon-text">换一个</text>
+          </view>
+          <view class="icon-btn copy-btn {{copied ? 'copied' : ''}}" bindtap="onCopy">
+            <text class="icon-text">{{copied ? '已复制' : '复制'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="strength-row">
+        <text class="strength-label">强度：</text>
+        <view class="strength-bar">
+          <view class="strength-fill" style="width: {{strength.level * 25}}%; background: {{strength.color}};"></view>
+        </view>
+        <text class="strength-text" style="color: {{strength.color}};">{{strength.label}}</text>
+      </view>
+
+      <text class="label">密码长度</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{lengthOptions}}"
+          wx:key="*this"
+          class="chip {{activeLengthIndex === index ? 'chip-active' : ''}}"
+          data-index="{{index}}"
+          bindtap="onSelectLength"
+        >
+          {{item}}
+        </view>
+      </view>
+
+      <text class="label">字符类型</text>
+      <view class="toggle-list">
+        <view class="toggle-item" data-key="includeUpper" bindtap="onToggle">
+          <view class="toggle-info">
+            <text class="toggle-title">大写字母</text>
+            <text class="toggle-sample">A-Z</text>
+          </view>
+          <view class="toggle-switch {{includeUpper ? 'switch-on' : ''}}">
+            <view class="switch-thumb"></view>
+          </view>
+        </view>
+        <view class="toggle-item" data-key="includeLower" bindtap="onToggle">
+          <view class="toggle-info">
+            <text class="toggle-title">小写字母</text>
+            <text class="toggle-sample">a-z</text>
+          </view>
+          <view class="toggle-switch {{includeLower ? 'switch-on' : ''}}">
+            <view class="switch-thumb"></view>
+          </view>
+        </view>
+        <view class="toggle-item" data-key="includeDigits" bindtap="onToggle">
+          <view class="toggle-info">
+            <text class="toggle-title">数字</text>
+            <text class="toggle-sample">0-9</text>
+          </view>
+          <view class="toggle-switch {{includeDigits ? 'switch-on' : ''}}">
+            <view class="switch-thumb"></view>
+          </view>
+        </view>
+        <view class="toggle-item" data-key="includeSymbols" bindtap="onToggle">
+          <view class="toggle-info">
+            <text class="toggle-title">特殊符号</text>
+            <text class="toggle-sample">!@#$%</text>
+          </view>
+          <view class="toggle-switch {{includeSymbols ? 'switch-on' : ''}}">
+            <view class="switch-thumb"></view>
+          </view>
+        </view>
+      </view>
+
+      <block wx:if="{{history.length > 1}}">
+        <text class="label">历史记录</text>
+        <view class="history-list">
+          <view
+            wx:for="{{history}}"
+            wx:key="*this"
+            wx:if="{{index > 0}}"
+            class="history-item"
+            data-pw="{{item}}"
+            bindtap="onCopyHistory"
+          >
+            <text class="history-pw">{{item}}</text>
+            <text class="history-copy">复制</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>

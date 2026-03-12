@@ -31,10 +31,8 @@ function showRewardedVideo(onSuccess, onFail) {
         if (typeof onFail === "function") onFail(new Error("未完整观看广告"));
       });
     })
-    .catch((err) => {
-      // 广告异常直接降级
+    .catch(() => {
       if (typeof onSuccess === "function") onSuccess();
-      if (typeof onFail === "function") onFail(err);
     });
 }
 

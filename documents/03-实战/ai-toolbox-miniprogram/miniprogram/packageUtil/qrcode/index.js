@@ -21,6 +21,7 @@ Page({
     matrixSize: 0,
     generated: false,
     rendering: false,
+    previewSrc: "",
   },
 
   onLoad() {
@@ -88,14 +89,29 @@ Page({
       const canvasRes = await this.getCanvasNode("qrCanvas");
       const canvas = canvasRes.node;
       const ctx = canvas.getContext("2d");
-      const dpr = wx.getWindowInfo().pixelRatio || 2;
 
-      canvas.width = PREVIEW_CANVAS_SIZE * dpr;
-      canvas.height = PREVIEW_CANVAS_SIZE * dpr;
-      ctx.scale(dpr, dpr);
+      const renderSize = PREVIEW_CANVAS_SIZE;
+      canvas.width = renderSize;
+      canvas.height = renderSize;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.drawQrToCanvas(ctx, matrix, renderSize);
 
-      this.drawQrToCanvas(ctx, matrix, PREVIEW_CANVAS_SIZE);
-      this.setData({ matrixSize: matrix.length });
+      await new Promise((resolve) => setTimeout(resolve, 50));
+
+      const tempFile = await new Promise((resolve, reject) => {
+        wx.canvasToTempFilePath({
+          canvas,
+          fileType: "png",
+          width: renderSize,
+          height: renderSize,
+          destWidth: renderSize,
+          destHeight: renderSize,
+          success: resolve,
+          fail: reject,
+        }, this);
+      });
+
+      this.setData({ matrixSize: matrix.length, previewSrc: tempFile.tempFilePath });
     } catch (error) {
       wx.showToast({ title: "二维码生成失败", icon: "none" });
     } finally {
@@ -106,10 +122,10 @@ Page({
   drawQrToCanvas(ctx, matrix, size) {
     ctx.clearRect(0, 0, size, size);
     if (this.data.activeBg !== "transparent") {
-      ctx.setFillStyle(this.data.activeBg);
+      ctx.fillStyle = this.data.activeBg;
       ctx.fillRect(0, 0, size, size);
     }
-    ctx.setFillStyle(this.data.activeFg);
+    ctx.fillStyle = this.data.activeFg;
     const count = matrix.length;
     const cell = size / count;
     for (let row = 0; row < count; row++) {
@@ -155,11 +171,10 @@ Page({
           const canvasRes = await this.getCanvasNode("saveCanvas");
           const canvas = canvasRes.node;
           const ctx = canvas.getContext("2d");
-          const dpr = wx.getWindowInfo().pixelRatio || 2;
 
-          canvas.width = outputSize * dpr;
-          canvas.height = outputSize * dpr;
-          ctx.scale(dpr, dpr);
+          canvas.width = outputSize;
+          canvas.height = outputSize;
+          ctx.setTransform(1, 0, 0, 1, 0, 0);
           this.drawQrToCanvas(ctx, matrix, outputSize);
 
           const output = await new Promise((resolve, reject) => {

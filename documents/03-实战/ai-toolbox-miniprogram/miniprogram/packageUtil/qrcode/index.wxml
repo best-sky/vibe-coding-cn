@@ -60,7 +60,7 @@
       </view>
 
       <view class="preview-wrap">
-        <canvas type="2d" id="qrCanvas" class="preview-canvas"></canvas>
+        <image wx:if="{{previewSrc}}" class="preview-image" src="{{previewSrc}}" mode="aspectFit"></image>
         <text wx:if="{{!generated}}" class="preview-hint">生成后在此预览</text>
       </view>
 
@@ -74,5 +74,6 @@
     </view>
   </scroll-view>
 
-  <canvas type="2d" id="saveCanvas" class="hidden-canvas"></canvas>
+  <canvas type="2d" id="qrCanvas" class="offscreen-canvas offscreen-preview"></canvas>
+  <canvas type="2d" id="saveCanvas" class="offscreen-canvas offscreen-save"></canvas>
 </view>

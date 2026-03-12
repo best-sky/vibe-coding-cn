@@ -3,15 +3,15 @@
   "subpackages": [
     {
       "root": "packageImage",
-      "pages": ["compress/index", "id-photo/index", "collage/index", "watermark/index"]
+      "pages": ["compress/index", "collage/index", "watermark/index"]
     },
     {
       "root": "packageText",
-      "pages": ["copywriting/index", "naming/index"]
+      "pages": ["copywriting/index", "naming/index", "nickname/index"]
     },
     {
       "root": "packageUtil",
-      "pages": ["word-count/index", "qrcode/index"]
+      "pages": ["word-count/index", "qrcode/index", "password/index", "subsidy/index"]
     }
   ],
   "useExtendedLib": {

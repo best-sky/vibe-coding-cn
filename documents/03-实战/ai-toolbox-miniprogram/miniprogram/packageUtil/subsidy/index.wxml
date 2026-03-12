@@ -1,0 +1,121 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">育儿补贴计算</text>
+    <text class="sub">根据出生日期和地区，估算可领取的育儿补贴</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <text class="label">出生日期</text>
+      <picker mode="date" start="{{startDate}}" end="{{today}}" value="{{birthDate}}" bindchange="onDateChange">
+        <view class="date-picker">
+          <text class="{{birthDisplay ? 'date-text' : 'date-placeholder'}}">{{birthDisplay || '点击选择宝宝出生日期'}}</text>
+        </view>
+      </picker>
+
+      <text class="label">孩次</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{childOptions}}"
+          wx:key="key"
+          class="chip {{activeChild === item.key ? 'chip-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onSelectChild"
+        >
+          {{item.label}}
+        </view>
+      </view>
+
+      <text class="label">所在地区</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{regions}}"
+          wx:key="key"
+          class="chip {{activeRegion === item.key ? 'chip-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onSelectRegion"
+        >
+          {{item.label}}
+        </view>
+      </view>
+
+      <view class="btn-row">
+        <view class="primary-btn action-btn" bindtap="onCalc">开始计算</view>
+      </view>
+
+      <block wx:if="{{calculated && result}}">
+        <block wx:if="{{result.eligible}}">
+          <view class="result-card highlight-card">
+            <text class="result-label">预计总补贴</text>
+            <text class="result-total">¥ {{result.grandTotal}}</text>
+            <text class="result-sub">补贴至 {{result.thirdBirthday}}（满3周岁）</text>
+          </view>
+
+          <view class="progress-row">
+            <view class="progress-item">
+              <text class="progress-num">{{result.totalMonths}}</text>
+              <text class="progress-label">总月数</text>
+            </view>
+            <view class="progress-item">
+              <text class="progress-num">{{result.pastMonths}}</text>
+              <text class="progress-label">已过月数</text>
+            </view>
+            <view class="progress-item">
+              <text class="progress-num">{{result.remainMonths}}</text>
+              <text class="progress-label">剩余月数</text>
+            </view>
+          </view>
+
+          <view class="detail-section">
+            <text class="detail-title">国家基础补贴</text>
+            <view class="detail-row">
+              <text class="detail-key">每月补贴</text>
+              <text class="detail-val">¥ {{result.nationalMonthly}}</text>
+            </view>
+            <view class="detail-row">
+              <text class="detail-key">累计 {{result.totalMonths}} 个月</text>
+              <text class="detail-val">¥ {{result.nationalTotal}}</text>
+            </view>
+          </view>
+
+          <block wx:if="{{result.localTotal > 0}}">
+            <view class="detail-section">
+              <text class="detail-title">地方额外补贴</text>
+              <view class="detail-row" wx:if="{{result.localMonthly > 0}}">
+                <text class="detail-key">每月补贴</text>
+                <text class="detail-val">¥ {{result.localMonthly}}</text>
+              </view>
+              <view class="detail-row" wx:if="{{result.localMonthlyTotal > 0}}">
+                <text class="detail-key">月补累计</text>
+                <text class="detail-val">¥ {{result.localMonthlyTotal}}</text>
+              </view>
+              <view class="detail-row" wx:if="{{result.localLump > 0}}">
+                <text class="detail-key">一次性补贴</text>
+                <text class="detail-val">¥ {{result.localLump}}</text>
+              </view>
+            </view>
+          </block>
+
+          <view class="note-card" wx:if="{{result.regionNote}}">
+            <text class="note-text">{{result.regionNote}}</text>
+          </view>
+        </block>
+
+        <block wx:if="{{!result.eligible}}">
+          <view class="result-card ineligible-card">
+            <text class="ineligible-text">{{result.reason}}</text>
+          </view>
+        </block>
+
+        <view class="disclaimer">
+          <text class="disclaimer-text">* 数据基于2025年公布的育儿补贴政策。2025年1月1日前出生且未满3周岁的婴幼儿，从2025年1月1日起计算补贴至满3周岁。实际补贴以当地最新政策为准。</text>
+        </view>
+      </block>
+    </view>
+  </scroll-view>
+</view>

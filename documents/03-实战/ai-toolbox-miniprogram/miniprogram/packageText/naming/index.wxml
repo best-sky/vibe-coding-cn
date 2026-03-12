@@ -1,34 +1,60 @@
 <view class="page safe-area-bottom">
-  <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
-  <view class="nav-row" bindtap="onBack">
-    <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
-  </view>
-
-  <text class="title">AI 起名字</text>
-  <text class="sub">输入要求，AI 为你生成好名字</text>
-
-  <view class="input-wrap">
-    <textarea
-      class="input"
-      placeholder="例如：男宝宝起名，姓李，期望包含健康、阳光的寓意，不要太生僻的字。"
-      placeholder-class="placeholder"
-      value="{{requirement}}"
-      bindinput="onInput"
-    ></textarea>
-  </view>
-
-  <text class="label">推荐名字</text>
-  <view class="name-list">
-    <view wx:for="{{names}}" wx:key="name" class="name-card card">
-      <view class="name-info">
-        <text class="name-text">{{item.name}}</text>
-        <text class="name-meaning">{{item.meaning}}</text>
-      </view>
-      <view class="copy-round" data-name="{{item.name}}" bindtap="onCopyName">+</view>
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
     </view>
-    <view wx:if="{{!names.length && !loading}}" class="empty">暂无结果，点击下方按钮开始生成</view>
+
+    <text class="title">AI 起名字</text>
+    <text class="sub">选择场景，输入需求，AI 为你生成好名字</text>
   </view>
 
-  <view class="status" wx:if="{{loading}}">生成中...</view>
-  <view class="bottom-btn primary-btn" bindtap="onGenerate">生成名字</view>
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <text class="label">场景</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{scenes}}"
+          wx:key="*this"
+          class="chip {{activeScene === item ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="onSelectScene"
+        >
+          {{item}}
+        </view>
+      </view>
+
+      <view class="input-wrap">
+        <textarea
+          class="input"
+          maxlength="-1"
+          placeholder="例如：男宝宝，姓李，期望包含健康、阳光的寓意"
+          placeholder-class="placeholder"
+          value="{{requirement}}"
+          bindinput="onInput"
+        ></textarea>
+      </view>
+
+      <view class="btn-row">
+        <view class="primary-btn action-btn {{loading ? 'btn-disabled' : ''}}" bindtap="onGenerate">
+          {{loading ? '生成中...' : '生成名字'}}
+        </view>
+      </view>
+
+      <block wx:if="{{names.length > 0}}">
+        <text class="label">推荐名字</text>
+        <view class="name-list">
+          <view wx:for="{{names}}" wx:key="name" class="name-card">
+            <view class="name-info">
+              <text class="name-text">{{item.name}}</text>
+              <text class="name-meaning" wx:if="{{item.meaning}}">{{item.meaning}}</text>
+            </view>
+            <view class="copy-round" data-name="{{item.name}}" bindtap="onCopyName">复制</view>
+          </view>
+        </view>
+      </block>
+
+      <view wx:if="{{!names.length && !loading}}" class="empty">选择场景并输入需求，点击生成</view>
+    </view>
+  </scroll-view>
 </view>
