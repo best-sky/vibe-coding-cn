@@ -87,6 +87,14 @@ const TOOL_LIST = [
     icon: "lock",
   },
   {
+    id: "xhs-cover",
+    name: "AI 小红书封面",
+    desc: "一键生成吸睛封面图",
+    category: "image",
+    path: "/packageImage/xhs-cover/index",
+    icon: "image",
+  },
+  {
     id: "coming-soon",
     name: "更多工具",
     desc: "持续上新中",
@@ -109,9 +117,16 @@ const BG_COLORS = [
   { key: "gray", color: "#D4D4D4" },
 ];
 
+const AGENT_IDS = {
+  copywriting: "ibot-zhiku-i8z7bi",
+  naming: "ibot-zhiku-i8z7bi",
+  nickname: "ibot-zhiku-i8z7bi",
+};
+
 module.exports = {
   TOOL_CATEGORIES,
   TOOL_LIST,
   ID_PHOTO_SIZES,
   BG_COLORS,
+  AGENT_IDS,
 };

@@ -29,19 +29,42 @@ async function streamChat(systemPrompt, userMessage, onChunk) {
   }
 }
 
-async function generateImage(prompt) {
-  const model = getModel();
-  const res = await model.generateImage({
+async function agentChat(botId, userMessage, onChunk, history) {
+  if (!wx.cloud || !wx.cloud.extend || !wx.cloud.extend.AI) {
+    throw new Error("云开发 AI 能力未初始化，请先配置环境");
+  }
+
+  const res = await wx.cloud.extend.AI.bot.sendMessage({
     data: {
-      model: "hunyuan-image",
-      prompt,
-      style: "photography",
+      botId,
+      msg: userMessage,
+      history: history || [],
     },
   });
-  return res;
+
+  for await (let str of res.textStream) {
+    if (str && typeof onChunk === "function") {
+      onChunk(str);
+    }
+  }
+}
+
+async function generateImage(prompt, options = {}) {
+  if (!wx.cloud) {
+    throw new Error("云开发未初始化");
+  }
+  const res = await wx.cloud.callFunction({
+    name: "generateImage-ZtKZSc",
+    data: {
+      prompt,
+      size: options.size || "1024x1024",
+    },
+  });
+  return res.result;
 }
 
 module.exports = {
   streamChat,
+  agentChat,
   generateImage,
 };

@@ -1,5 +1,6 @@
-const { streamChat } = require("../../services/ai-service");
+const { agentChat, streamChat } = require("../../services/ai-service");
 const { recordToolUse } = require("../../utils/storage");
+const { AGENT_IDS } = require("../../utils/constants");
 
 const SCENES = ["宝宝起名", "公司取名", "品牌命名", "笔名/艺名", "宠物起名"];
 
@@ -53,16 +54,26 @@ Page({
     const userPrompt = `场景：${scene}\n需求：${requirement}\n\n请推荐6个名字，每个名字用以下格式输出：\n名字：xxx\n寓意：xxx\n\n直接输出，不要其他内容。`;
 
     let raw = "";
+    const handleChunk = (chunk) => {
+      if (this._aborted) return;
+      raw += chunk;
+      this.setData({ rawText: raw });
+      this._parseNames(raw);
+    };
     try {
-      await streamChat(systemPrompt, userPrompt, (chunk) => {
-        if (this._aborted) return;
-        raw += chunk;
-        this.setData({ rawText: raw });
-        this._parseNames(raw);
-      });
+      if (AGENT_IDS.naming && !AGENT_IDS.naming.includes("xxx")) {
+        await agentChat(AGENT_IDS.naming, userPrompt, handleChunk);
+      } else {
+        await streamChat(systemPrompt, userPrompt, handleChunk);
+      }
       this._parseNames(raw);
     } catch (err) {
-      if (!this._aborted) {
+      if (this._aborted) return;
+      if (raw) { this._parseNames(raw); return; }
+      try {
+        await streamChat(systemPrompt, userPrompt, handleChunk);
+        this._parseNames(raw);
+      } catch (fallbackErr) {
         wx.showToast({ title: "生成失败，请重试", icon: "none" });
       }
     } finally {

@@ -1,0 +1,74 @@
+<view class="page safe-area-bottom">
+  <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+  <view class="nav-row" bindtap="onBack">
+    <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+  </view>
+
+  <text class="title">AI 小红书封面</text>
+  <text class="sub">输入主题，一键生成吸睛封面图</text>
+
+  <text class="label">封面主题</text>
+  <view class="input-wrap">
+    <textarea
+      class="input"
+      placeholder="描述你的封面内容，例如：&#10;咖啡探店推荐、秋冬穿搭分享、旅行攻略"
+      placeholder-class="placeholder"
+      value="{{topic}}"
+      bindinput="onInput"
+    ></textarea>
+  </view>
+
+  <text class="label">封面风格</text>
+  <view class="chip-row">
+    <view
+      wx:for="{{styles}}"
+      wx:key="key"
+      class="chip {{activeStyle===item.key?'chip-active':''}}"
+      data-key="{{item.key}}"
+      bindtap="onSelectStyle"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <text class="label">图片比例</text>
+  <view class="chip-row">
+    <view
+      wx:for="{{sizes}}"
+      wx:key="key"
+      class="chip {{activeSize===item.key?'chip-active':''}}"
+      data-key="{{item.key}}"
+      bindtap="onSelectSize"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <view class="preview-area" hidden="{{!imageUrl && !generating}}">
+    <text class="label">生成结果</text>
+    <view class="preview-card">
+      <image
+        hidden="{{!imageUrl}}"
+        class="preview-img {{activeSize==='square'?'img-square':'img-portrait'}}"
+        src="{{imageUrl}}"
+        mode="widthFix"
+        show-menu-by-longpress
+      ></image>
+      <view hidden="{{!generating}}" class="loading-box">
+        <text class="loading-text">AI 正在绘制中，预计 15-30 秒…</text>
+      </view>
+    </view>
+
+    <view class="action-row" hidden="{{!imageUrl || generating}}">
+      <view class="action-btn secondary-btn" bindtap="onRegenerate">重新生成</view>
+      <view class="action-btn primary-btn" bindtap="onSave">保存到相册</view>
+    </view>
+  </view>
+
+  <view class="bottom-btn primary-btn" bindtap="onGenerate" hidden="{{generating}}">
+    生成封面
+  </view>
+  <view class="bottom-btn disabled-btn" hidden="{{!generating}}">
+    生成中…
+  </view>
+</view>

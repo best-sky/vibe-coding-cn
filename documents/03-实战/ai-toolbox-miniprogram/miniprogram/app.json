@@ -3,7 +3,7 @@
   "subpackages": [
     {
       "root": "packageImage",
-      "pages": ["compress/index", "collage/index", "watermark/index"]
+      "pages": ["compress/index", "collage/index", "watermark/index", "xhs-cover/index"]
     },
     {
       "root": "packageText",

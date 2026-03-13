@@ -1,5 +1,6 @@
-const { streamChat } = require("../../services/ai-service");
+const { agentChat, streamChat } = require("../../services/ai-service");
 const { recordToolUse } = require("../../utils/storage");
+const { AGENT_IDS } = require("../../utils/constants");
 
 const STYLES = [
   "简约文艺", "古风诗意", "可爱萌系", "英文混搭",
@@ -58,15 +59,25 @@ Page({
     const userPrompt = `风格：${activeStyle}\n平台：${activePlatform}${keywordHint}\n\n请生成8个网名，每个网名用以下格式输出：\n网名：xxx\n灵感：xxx（一句话说明灵感来源）\n\n直接输出，不要其他内容。`;
 
     let raw = "";
+    const handleChunk = (chunk) => {
+      if (this._aborted) return;
+      raw += chunk;
+      this._parseNicknames(raw);
+    };
     try {
-      await streamChat(systemPrompt, userPrompt, (chunk) => {
-        if (this._aborted) return;
-        raw += chunk;
-        this._parseNicknames(raw);
-      });
+      if (AGENT_IDS.nickname && !AGENT_IDS.nickname.includes("xxx")) {
+        await agentChat(AGENT_IDS.nickname, userPrompt, handleChunk);
+      } else {
+        await streamChat(systemPrompt, userPrompt, handleChunk);
+      }
       this._parseNicknames(raw);
     } catch (err) {
-      if (!this._aborted) {
+      if (this._aborted) return;
+      if (raw) { this._parseNicknames(raw); return; }
+      try {
+        await streamChat(systemPrompt, userPrompt, handleChunk);
+        this._parseNicknames(raw);
+      } catch (fallbackErr) {
         wx.showToast({ title: "生成失败，请重试", icon: "none" });
       }
     } finally {

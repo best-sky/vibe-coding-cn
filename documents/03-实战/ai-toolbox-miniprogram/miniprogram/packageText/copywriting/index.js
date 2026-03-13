@@ -1,6 +1,7 @@
-const { streamChat } = require("../../services/ai-service");
+const { agentChat, streamChat } = require("../../services/ai-service");
 const { showRewardedVideo } = require("../../utils/ad-manager");
 const { recordToolUse } = require("../../utils/storage");
+const { AGENT_IDS } = require("../../utils/constants");
 
 Page({
   data: {
@@ -40,6 +41,8 @@ Page({
   },
 
   onGenerate() {
+    if (this.data.generating) return;
+
     if (!this.data.prompt.trim()) {
       wx.showToast({ title: "请先输入主题", icon: "none" });
       return;
@@ -47,12 +50,23 @@ Page({
 
     showRewardedVideo(async () => {
       this.setData({ generating: true, result: "" });
+      const handleChunk = (chunk) => {
+        this.setData({ result: `${this.data.result}${chunk}` });
+      };
       try {
-        await streamChat("你是资深中文营销文案专家。", this.buildPrompt(), (chunk) => {
-          this.setData({ result: `${this.data.result}${chunk}` });
-        });
+        if (AGENT_IDS.copywriting && !AGENT_IDS.copywriting.includes("xxx")) {
+          await agentChat(AGENT_IDS.copywriting, this.buildPrompt(), handleChunk);
+        } else {
+          await streamChat("你是资深中文营销文案专家。", this.buildPrompt(), handleChunk);
+        }
       } catch (err) {
-        wx.showToast({ title: "AI 生成失败", icon: "none" });
+        if (this.data.result) return;
+        try {
+          this.setData({ result: "" });
+          await streamChat("你是资深中文营销文案专家。", this.buildPrompt(), handleChunk);
+        } catch (fallbackErr) {
+          wx.showToast({ title: "AI 生成失败", icon: "none" });
+        }
       } finally {
         this.setData({ generating: false });
       }
