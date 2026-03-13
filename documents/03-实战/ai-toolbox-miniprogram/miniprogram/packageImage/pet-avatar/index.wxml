@@ -1,0 +1,95 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">宠物 Q 版头像</text>
+    <text class="sub">描述你的宠物，AI 生成专属 Q 版头像</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <!-- 宠物类型选择 -->
+      <text class="label">宠物类型</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{petTypes}}"
+          wx:key="key"
+          class="chip {{selectedPetType === item.key ? 'chip-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onSelectPetType"
+        >
+          {{item.label}}
+        </view>
+      </view>
+
+      <!-- 宠物描述 -->
+      <text class="label">描述特征</text>
+      <text class="hint">例如：白色短毛加菲猫、黑色泰迪犬、橘色长毛英短…</text>
+      <view class="input-wrap">
+        <textarea
+          class="input"
+          placeholder="描述越详细，生成效果越好"
+          placeholder-class="placeholder"
+          maxlength="100"
+          value="{{petDesc}}"
+          bindinput="onDescInput"
+        ></textarea>
+      </view>
+
+      <!-- 风格选择 -->
+      <text class="label">选择风格</text>
+      <view class="style-grid">
+        <view
+          wx:for="{{styles}}"
+          wx:key="key"
+          class="style-card {{selectedStyle === item.key ? 'style-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onSelectStyle"
+        >
+          <text class="style-icon">{{item.icon}}</text>
+          <text class="style-label">{{item.label}}</text>
+        </view>
+      </view>
+
+      <!-- 生成按钮 -->
+      <view class="btn-row">
+        <view
+          class="primary-btn action-btn {{generating || !selectedStyle ? 'btn-disabled' : ''}}"
+          bindtap="onGenerate"
+        >
+          {{generating ? '生成中...' : '生成头像'}}
+        </view>
+      </view>
+
+      <!-- 生成结果 -->
+      <block wx:if="{{resultImage}}">
+        <text class="label">生成结果</text>
+        <view class="result-card">
+          <image
+            class="result-img"
+            src="{{resultImage}}"
+            mode="aspectFit"
+            show-menu-by-longpress="{{true}}"
+          />
+          <view class="result-actions">
+            <view class="action-pill" bindtap="onSaveImage">保存到相册</view>
+            <view class="action-pill" bindtap="onRegenerate">再来一张</view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 错误提示 -->
+      <view wx:if="{{errorMsg}}" class="error-wrap">
+        <text class="error-text">{{errorMsg}}</text>
+      </view>
+
+      <!-- 底部提示 -->
+      <view class="disclaimer">
+        <text class="disclaimer-text">基于 AI 文生图技术，描述宠物特征可获得更满意的效果</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

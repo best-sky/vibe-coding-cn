@@ -1,0 +1,61 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+
+      <!-- 分数展示 -->
+      <view class="score-section">
+        <text class="score-num">{{finalScore}}</text>
+        <text class="score-label">{{scoreLabel}}</text>
+        <text class="age-text">享年 {{finalAge}} 岁</text>
+      </view>
+
+      <!-- 最终属性 -->
+      <view class="attrs-card">
+        <view class="attrs-row">
+          <view class="attr-item" wx:for="{{attrKeys}}" wx:key="*this">
+            <view class="attr-circle">
+              <text class="attr-circle-val">{{attrs[item]}}</text>
+            </view>
+            <text class="attr-item-label">{{attrLabels[item]}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- AI 总结 -->
+      <view class="summary-section">
+        <text class="section-title">AI 人生总结</text>
+        <view class="summary-body">
+          <text class="summary-text">{{summaryText}}</text>
+          <view class="typing-cursor" wx:if="{{isGenerating}}"></view>
+        </view>
+      </view>
+
+      <!-- 人生大事记 -->
+      <view class="events-section">
+        <text class="section-title">人生大事记</text>
+        <view class="events-list">
+          <view class="event-row" wx:for="{{events}}" wx:key="age">
+            <text class="event-age">{{item.age}}岁</text>
+            <text class="event-text">{{item.text}}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 底部操作 -->
+      <view class="bottom-actions">
+        <button class="share-btn" open-type="share">分享我的人生</button>
+        <view class="restart-btn" bindtap="onRestart">
+          <text>重开一局</text>
+        </view>
+      </view>
+
+    </view>
+  </scroll-view>
+</view>

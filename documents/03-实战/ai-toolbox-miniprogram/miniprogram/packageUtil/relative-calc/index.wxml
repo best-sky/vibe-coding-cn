@@ -1,0 +1,75 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">亲戚关系计算</text>
+    <text class="sub">逢年过节，再也不怕叫错称呼</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <!-- 性别切换 -->
+      <view class="chip-row">
+        <view
+          wx:for="{{genderOptions}}"
+          wx:key="key"
+          class="chip {{activeGender === item.key ? 'chip-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onGenderChange"
+        >
+          {{item.label}}
+        </view>
+      </view>
+
+      <!-- 关系链展示 -->
+      <view class="chain-card" wx:if="{{chainLabels.length > 0}}">
+        <text class="chain-prefix">我的</text>
+        <block wx:for="{{chainLabels}}" wx:key="index">
+          <text class="chain-step">{{item}}</text>
+          <text class="chain-arrow" wx:if="{{index < chainLabels.length - 1}}"> → </text>
+        </block>
+      </view>
+
+      <view class="chain-empty" wx:if="{{chainLabels.length === 0}}">
+        <text class="chain-empty-text">点击下方按钮开始选择关系</text>
+      </view>
+
+      <!-- 结果展示 -->
+      <block wx:if="{{result}}">
+        <view class="result-card {{result.found ? 'highlight-card' : 'ineligible-card'}}">
+          <block wx:if="{{result.found}}">
+            <text class="result-label">称谓</text>
+            <text class="result-total">{{result.title}}</text>
+            <text class="result-sub" wx:if="{{result.reverse}}">对方叫你「{{result.reverse}}」</text>
+          </block>
+          <block wx:else>
+            <text class="ineligible-text">{{result.title}}</text>
+          </block>
+        </view>
+      </block>
+
+      <!-- 关系按钮组 -->
+      <text class="label">选择关系</text>
+      <view class="btn-grid">
+        <view
+          wx:for="{{allButtons}}"
+          wx:key="key"
+          class="rel-btn {{availableMap[item.key] ? '' : 'rel-btn-disabled'}}"
+          data-key="{{item.key}}"
+          bindtap="onSelectRelation"
+        >
+          {{item.label}}
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="action-row" wx:if="{{chain.length > 0}}">
+        <view class="ghost-btn half-btn" bindtap="onUndo">回退一步</view>
+        <view class="ghost-btn half-btn" bindtap="onClear">清空重来</view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

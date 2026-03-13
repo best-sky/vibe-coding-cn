@@ -1,0 +1,212 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">个人所得税计算</text>
+    <text class="sub">2024年最新税率，累计预扣法精准计算</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <!-- 模式切换 -->
+      <view class="chip-row">
+        <view
+          wx:for="{{modeOptions}}"
+          wx:key="key"
+          class="chip {{activeMode === item.key ? 'chip-active' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onModeChange"
+        >
+          {{item.label}}
+        </view>
+      </view>
+
+      <!-- 月薪模式 -->
+      <block wx:if="{{activeMode === 'monthly'}}">
+        <text class="label">税前月薪（元）</text>
+        <view class="input-wrap">
+          <input
+            class="input"
+            type="digit"
+            placeholder="请输入税前月薪"
+            placeholder-class="placeholder"
+            value="{{salary}}"
+            bindinput="onSalaryInput"
+          />
+        </view>
+
+        <text class="label">五险一金比例（%）</text>
+        <view class="insurance-grid">
+          <view class="insurance-item">
+            <text class="insurance-label">养老</text>
+            <input class="insurance-input" type="digit" value="{{pension}}" bindinput="onPensionInput" />
+            <text class="insurance-unit">%</text>
+          </view>
+          <view class="insurance-item">
+            <text class="insurance-label">医疗</text>
+            <input class="insurance-input" type="digit" value="{{medical}}" bindinput="onMedicalInput" />
+            <text class="insurance-unit">%</text>
+          </view>
+          <view class="insurance-item">
+            <text class="insurance-label">失业</text>
+            <input class="insurance-input" type="digit" value="{{unemployment}}" bindinput="onUnemploymentInput" />
+            <text class="insurance-unit">%</text>
+          </view>
+          <view class="insurance-item">
+            <text class="insurance-label">公积金</text>
+            <input class="insurance-input" type="digit" value="{{housingFund}}" bindinput="onHousingFundInput" />
+            <text class="insurance-unit">%</text>
+          </view>
+        </view>
+
+        <text class="label">专项附加扣除</text>
+        <view class="special-grid">
+          <view
+            wx:for="{{specialItems}}"
+            wx:key="key"
+            wx:if="{{item.amount > 0}}"
+            class="special-chip {{selectedSpecialsMap[item.key] ? 'special-active' : ''}}"
+            data-key="{{item.key}}"
+            bindtap="onToggleSpecial"
+          >
+            <text class="special-name">{{item.label}}</text>
+            <text class="special-amount">{{item.amount}}元/月</text>
+          </view>
+        </view>
+      </block>
+
+      <!-- 年终奖模式 -->
+      <block wx:if="{{activeMode === 'bonus'}}">
+        <text class="label">年终奖金额（元）</text>
+        <view class="input-wrap">
+          <input
+            class="input"
+            type="digit"
+            placeholder="请输入年终奖总额"
+            placeholder-class="placeholder"
+            value="{{bonus}}"
+            bindinput="onBonusInput"
+          />
+        </view>
+      </block>
+
+      <view class="btn-row">
+        <view class="primary-btn action-btn" bindtap="onCalc">开始计算</view>
+      </view>
+
+      <!-- 月薪结果 -->
+      <block wx:if="{{calculated && activeMode === 'monthly' && monthResult}}">
+        <view class="result-card highlight-card">
+          <text class="result-label">每月到手（第1个月）</text>
+          <text class="result-total">¥ {{monthResult.months[0].takeHomeDisplay}}</text>
+          <text class="result-sub">月缴个税 ¥{{monthResult.months[0].monthTaxDisplay}} · 五险一金 ¥{{monthResult.insurance.totalDisplay}}</text>
+        </view>
+
+        <view class="progress-row">
+          <view class="progress-item">
+            <text class="progress-num">¥{{monthResult.yearTakeHome}}</text>
+            <text class="progress-label">年到手</text>
+          </view>
+          <view class="progress-item">
+            <text class="progress-num">¥{{monthResult.yearTax}}</text>
+            <text class="progress-label">年缴个税</text>
+          </view>
+          <view class="progress-item">
+            <text class="progress-num">¥{{monthResult.yearInsurance}}</text>
+            <text class="progress-label">年五险一金</text>
+          </view>
+        </view>
+
+        <view class="detail-section">
+          <text class="detail-title">扣除明细（每月）</text>
+          <view class="detail-row">
+            <text class="detail-key">养老保险</text>
+            <text class="detail-val">¥ {{monthResult.insurance.pension}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">医疗保险</text>
+            <text class="detail-val">¥ {{monthResult.insurance.medical}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">失业保险</text>
+            <text class="detail-val">¥ {{monthResult.insurance.unemployment}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">住房公积金</text>
+            <text class="detail-val">¥ {{monthResult.insurance.housingFund}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">起征点</text>
+            <text class="detail-val">¥ 5,000.00</text>
+          </view>
+          <view class="detail-row" wx:if="{{monthResult.monthlySpecial > 0}}">
+            <text class="detail-key">专项附加扣除</text>
+            <text class="detail-val">¥ {{monthResult.monthlySpecial}}</text>
+          </view>
+        </view>
+
+        <view class="toggle-row" bindtap="onToggleDetail">
+          <text class="toggle-text">{{showDetail ? '收起' : '展开'}}12个月明细</text>
+          <text class="toggle-arrow">{{showDetail ? '▲' : '▼'}}</text>
+        </view>
+
+        <block wx:if="{{showDetail}}">
+          <view class="table-wrap">
+            <view class="table-header">
+              <text class="th th-month">月份</text>
+              <text class="th th-tax">当月个税</text>
+              <text class="th th-rate">税率</text>
+              <text class="th th-take">到手</text>
+            </view>
+            <view class="table-row" wx:for="{{monthResult.months}}" wx:key="month">
+              <text class="td td-month">{{item.month}}月</text>
+              <text class="td td-tax">¥{{item.monthTaxDisplay}}</text>
+              <text class="td td-rate">{{item.ratePercent}}%</text>
+              <text class="td td-take">¥{{item.takeHomeDisplay}}</text>
+            </view>
+          </view>
+        </block>
+      </block>
+
+      <!-- 年终奖结果 -->
+      <block wx:if="{{calculated && activeMode === 'bonus' && bonusResult}}">
+        <view class="result-card highlight-card">
+          <text class="result-label">税后年终奖</text>
+          <text class="result-total">¥ {{bonusResult.afterTax}}</text>
+          <text class="result-sub">缴纳个税 ¥{{bonusResult.tax}}</text>
+        </view>
+
+        <view class="detail-section">
+          <text class="detail-title">计算明细</text>
+          <view class="detail-row">
+            <text class="detail-key">年终奖总额</text>
+            <text class="detail-val">¥ {{bonusResult.bonus}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">月均（÷12）</text>
+            <text class="detail-val">¥ {{bonusResult.monthlyAvg}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">适用税率</text>
+            <text class="detail-val">{{bonusResult.ratePercent}}%</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">速算扣除数</text>
+            <text class="detail-val">¥ {{bonusResult.deduction}}</text>
+          </view>
+          <view class="detail-row">
+            <text class="detail-key">应缴个税</text>
+            <text class="detail-val highlight-val">¥ {{bonusResult.tax}}</text>
+          </view>
+        </view>
+      </block>
+
+      <view class="disclaimer" wx:if="{{calculated}}">
+        <text class="disclaimer-text">* 计算结果仅供参考，实际个税以税务机关核定为准。税率表基于2024年个人所得税法，五险一金基数上下限未做限制。</text>
+      </view>
+    </view>
+  </scroll-view>
+</view>

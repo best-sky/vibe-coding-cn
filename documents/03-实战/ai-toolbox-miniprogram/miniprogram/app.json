@@ -3,15 +3,15 @@
   "subpackages": [
     {
       "root": "packageImage",
-      "pages": ["compress/index", "collage/index", "watermark/index", "xhs-cover/index"]
+      "pages": ["compress/index", "collage/index", "watermark/index", "xhs-cover/index", "pet-avatar/index"]
     },
     {
       "root": "packageText",
-      "pages": ["copywriting/index", "naming/index", "nickname/index"]
+      "pages": ["copywriting/index", "naming/index", "nickname/index", "life-simulator/index", "life-summary/index"]
     },
     {
       "root": "packageUtil",
-      "pages": ["word-count/index", "qrcode/index", "password/index", "subsidy/index"]
+      "pages": ["word-count/index", "qrcode/index", "password/index", "subsidy/index", "tax-calculator/index", "relative-calc/index"]
     }
   ],
   "useExtendedLib": {

@@ -1,0 +1,131 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+    <text class="title">人生模拟器</text>
+    <text class="sub">AI 为你书写独一无二的人生故事</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y scroll-into-view="{{scrollTarget}}">
+    <view class="scroll-content">
+
+      <!-- 属性分配阶段 -->
+      <block wx:if="{{phase === 'setup'}}">
+        <view class="setup-card">
+          <text class="setup-title">分配你的初始天赋</text>
+          <text class="setup-hint">共 {{20}} 点天赋点，剩余 <text class="highlight">{{remainingPoints}}</text> 点</text>
+
+          <view class="attr-list">
+            <view class="attr-row" wx:for="{{attrKeys}}" wx:key="*this">
+              <text class="attr-label">{{attrLabels[item]}}</text>
+              <view class="attr-control">
+                <view class="attr-btn" data-attr="{{item}}" data-delta="{{-1}}" bindtap="onAttrChange">
+                  <text class="attr-btn-text">−</text>
+                </view>
+                <view class="attr-bar-wrap">
+                  <view class="attr-bar-bg">
+                    <view class="attr-bar-fill" style="width: {{attrs[item] * 10}}%;"></view>
+                  </view>
+                  <text class="attr-val">{{attrs[item]}}</text>
+                </view>
+                <view class="attr-btn" data-attr="{{item}}" data-delta="{{1}}" bindtap="onAttrChange">
+                  <text class="attr-btn-text">+</text>
+                </view>
+              </view>
+            </view>
+          </view>
+
+          <view class="setup-actions">
+            <view class="action-btn ghost" bindtap="onRandomAttrs">
+              <text>随机分配</text>
+            </view>
+            <view class="action-btn primary" bindtap="onStartLife">
+              <text>开始人生</text>
+            </view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 人生演绎阶段 -->
+      <block wx:if="{{phase === 'living'}}">
+        <!-- 状态栏 -->
+        <view class="status-bar-card">
+          <view class="status-top-row">
+            <view class="age-badge">
+              <text class="age-num">{{age}}</text>
+              <text class="age-unit">岁</text>
+            </view>
+            <view class="stage-tag">{{stageName}}</view>
+          </view>
+          <view class="attr-mini-list">
+            <view class="attr-mini" wx:for="{{attrKeys}}" wx:key="*this">
+              <text class="attr-mini-label">{{attrLabels[item]}}</text>
+              <view class="attr-mini-bar">
+                <view class="attr-mini-fill" style="width: {{attrs[item] * 10}}%; background: {{attrs[item] <= 3 ? '#EF4444' : attrs[item] >= 7 ? '#22C55E' : '#3B82F6'}};"></view>
+              </view>
+              <text class="attr-mini-val">{{attrs[item]}}</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 事件时间线 -->
+        <view class="timeline">
+          <view class="timeline-item" wx:for="{{events}}" wx:key="age" id="event-{{item.age}}">
+            <view class="timeline-dot {{index === events.length - 1 ? 'dot-active' : ''}}"></view>
+            <view class="timeline-line" wx:if="{{index < events.length - 1}}"></view>
+            <view class="timeline-content {{index === events.length - 1 ? 'content-active' : ''}}">
+              <text class="timeline-age">{{item.age}}岁</text>
+              <text class="timeline-text">{{item.text}}</text>
+              <view class="timeline-effects" wx:if="{{item.effects}}">
+                <text
+                  wx:for="{{item.effects}}"
+                  wx:for-index="attrKey"
+                  wx:for-item="val"
+                  wx:key="attrKey"
+                  class="effect-tag {{val > 0 ? 'effect-up' : 'effect-down'}}"
+                >{{attrLabels[attrKey]}} {{val > 0 ? '+' : ''}}{{val}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <!-- AI 叙述（仅关键事件触发） -->
+        <view class="narration-card" wx:if="{{isAiEvent && (aiNarration || isGenerating)}}">
+          <view class="narration-icon">✍️</view>
+          <view class="narration-body">
+            <text class="narration-text">{{aiNarration}}</text>
+            <view class="typing-cursor" wx:if="{{isGenerating}}"></view>
+          </view>
+        </view>
+
+        <!-- 死亡提示 -->
+        <view class="death-card" wx:if="{{isDead}}">
+          <text class="death-icon">🕯️</text>
+          <text class="death-text">你在 {{age}} 岁离开了这个世界</text>
+          <view class="death-actions">
+            <view class="action-btn ghost" bindtap="onShowSummary">
+              <text>查看人生总结</text>
+            </view>
+            <view class="action-btn primary" bindtap="onRestart">
+              <text>重开人生</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 操作按钮 -->
+        <view class="control-bar" wx:if="{{!isDead}}">
+          <view class="ctrl-btn auto {{isAutoMode ? 'auto-active' : ''}}" bindtap="onToggleAuto">
+            <text>{{isAutoMode ? '暂停' : '自动'}}</text>
+          </view>
+          <view class="ctrl-btn next {{isGenerating ? 'btn-disabled' : ''}}" bindtap="onNextYear">
+            <text>下一年 →</text>
+          </view>
+        </view>
+
+      </block>
+
+    </view>
+  </scroll-view>
+</view>

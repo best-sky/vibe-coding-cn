@@ -1,0 +1,502 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-bg-page);
+}
+
+.fixed-header {
+  flex-shrink: 0;
+  padding: 0 var(--page-padding) var(--space-md);
+  background: var(--color-bg-page);
+  z-index: 2;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.scroll-content {
+  padding: 0 var(--page-padding) calc(env(safe-area-inset-bottom) + 32rpx);
+}
+
+.status-bar-placeholder {
+  width: 100%;
+}
+
+.nav-row {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+  margin-left: -24rpx;
+}
+
+.back-icon {
+  width: 48rpx;
+  height: 48rpx;
+  padding: 24rpx;
+}
+
+.title {
+  display: block;
+  font-size: var(--font-xl);
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--color-text-title);
+}
+
+.sub {
+  display: block;
+  margin-top: 8rpx;
+  color: var(--color-text-secondary);
+  font-size: var(--font-sm);
+}
+
+/* ===== 属性分配 ===== */
+.setup-card {
+  margin-top: var(--space-lg);
+  background: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  padding: 40rpx 32rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.setup-title {
+  display: block;
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--color-text-title);
+  text-align: center;
+}
+
+.setup-hint {
+  display: block;
+  margin-top: 12rpx;
+  font-size: var(--font-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.highlight {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.attr-list {
+  margin-top: var(--space-lg);
+}
+
+.attr-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-md);
+}
+
+.attr-row:last-child {
+  margin-bottom: 0;
+}
+
+.attr-label {
+  width: 80rpx;
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: var(--color-text-title);
+  flex-shrink: 0;
+}
+
+.attr-control {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.attr-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background: var(--color-bg-input);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--duration-fast) ease;
+}
+
+.attr-btn:active {
+  background: var(--color-border);
+}
+
+.attr-btn-text {
+  font-size: 36rpx;
+  color: var(--color-text-title);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.attr-bar-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.attr-bar-bg {
+  flex: 1;
+  height: 14rpx;
+  border-radius: 7rpx;
+  background: var(--color-bg-input);
+  overflow: hidden;
+}
+
+.attr-bar-fill {
+  height: 100%;
+  border-radius: 7rpx;
+  background: var(--color-primary);
+  transition: width var(--duration-normal) var(--ease-out);
+}
+
+.attr-val {
+  min-width: 44rpx;
+  text-align: center;
+  font-size: var(--font-base);
+  font-weight: 700;
+  color: var(--color-text-title);
+  flex-shrink: 0;
+}
+
+.setup-actions {
+  margin-top: var(--space-xl);
+  display: flex;
+  gap: 20rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-base);
+  font-weight: 500;
+  transition: transform var(--duration-normal) var(--ease-spring), opacity var(--duration-fast) ease;
+}
+
+.action-btn:active {
+  transform: scale(0.96);
+  opacity: 0.85;
+}
+
+.action-btn.primary {
+  background: var(--color-text-title);
+  color: #FFFFFF;
+}
+
+.action-btn.ghost {
+  background: var(--color-bg-input);
+  color: var(--color-text-body);
+}
+
+/* ===== 状态栏 ===== */
+.status-bar-card {
+  margin-top: var(--space-md);
+  background: var(--color-text-title);
+  border-radius: var(--radius-lg);
+  padding: 28rpx 32rpx;
+}
+
+.status-top-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.age-badge {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+
+.age-num {
+  font-size: 52rpx;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.age-unit {
+  font-size: var(--font-sm);
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.stage-tag {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--font-xs);
+  padding: 6rpx 20rpx;
+  border-radius: var(--radius-full);
+  line-height: 1.4;
+}
+
+.attr-mini-list {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.attr-mini {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  min-width: 0;
+}
+
+.attr-mini-label {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.attr-mini-bar {
+  height: 6rpx;
+  border-radius: 3rpx;
+  background: rgba(255, 255, 255, 0.15);
+  overflow: hidden;
+}
+
+.attr-mini-fill {
+  height: 100%;
+  border-radius: 3rpx;
+  transition: width var(--duration-normal) var(--ease-out), background var(--duration-normal) ease;
+}
+
+.attr-mini-val {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 600;
+}
+
+/* ===== 时间线 ===== */
+.timeline {
+  margin-top: var(--space-lg);
+  padding-left: 20rpx;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 36rpx;
+  padding-bottom: 28rpx;
+  min-height: 48rpx;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 12rpx;
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: var(--color-border);
+  z-index: 1;
+}
+
+.dot-active {
+  background: var(--color-primary);
+  box-shadow: 0 0 0 6rpx rgba(59, 130, 246, 0.2);
+}
+
+.timeline-line {
+  position: absolute;
+  left: 6rpx;
+  top: 30rpx;
+  width: 2rpx;
+  bottom: 0;
+  background: var(--color-divider);
+}
+
+.timeline-content {
+  background: var(--color-bg-white);
+  border-radius: var(--radius-md);
+  padding: 20rpx 24rpx;
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.content-active {
+  box-shadow: var(--shadow-sm);
+  border-left: 4rpx solid var(--color-primary);
+}
+
+.timeline-age {
+  font-size: var(--font-xs);
+  color: var(--color-text-placeholder);
+  font-weight: 600;
+  display: inline-block;
+}
+
+.timeline-text {
+  display: block;
+  margin-top: 6rpx;
+  font-size: var(--font-base);
+  color: var(--color-text-title);
+  line-height: 1.6;
+}
+
+.timeline-effects {
+  margin-top: 10rpx;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.effect-tag {
+  font-size: 20rpx;
+  padding: 4rpx 14rpx;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.effect-up {
+  background: rgba(34, 197, 94, 0.1);
+  color: #16A34A;
+}
+
+.effect-down {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+/* ===== AI 叙述 ===== */
+.narration-card {
+  margin-top: var(--space-md);
+  background: linear-gradient(135deg, #F0F4FF 0%, #F5F0FF 100%);
+  border-radius: var(--radius-lg);
+  padding: 28rpx 32rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 12rpx;
+}
+
+.narration-icon {
+  font-size: 36rpx;
+  flex-shrink: 0;
+  line-height: 1.8;
+}
+
+.narration-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.narration-text {
+  font-size: var(--font-base);
+  color: var(--color-text-body);
+  line-height: 1.8;
+  word-break: break-all;
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 4rpx;
+  height: 28rpx;
+  background: var(--color-primary);
+  margin-left: 4rpx;
+  animation: blink 0.8s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===== 死亡提示 ===== */
+.death-card {
+  margin-top: var(--space-lg);
+  background: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  padding: 48rpx 32rpx;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.death-icon {
+  font-size: 64rpx;
+  display: block;
+  text-align: center;
+}
+
+.death-text {
+  display: block;
+  margin-top: var(--space-md);
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--color-text-title);
+  line-height: 1.5;
+  text-align: center;
+}
+
+.death-actions {
+  margin-top: var(--space-lg);
+  display: flex;
+  gap: 20rpx;
+  width: 100%;
+}
+
+/* ===== 控制栏 ===== */
+.control-bar {
+  margin-top: var(--space-lg);
+  display: flex;
+  gap: 20rpx;
+  padding-bottom: 32rpx;
+}
+
+.ctrl-btn {
+  height: 96rpx;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-base);
+  font-weight: 600;
+  transition: transform var(--duration-normal) var(--ease-spring);
+}
+
+.ctrl-btn:active {
+  transform: scale(0.96);
+}
+
+.ctrl-btn.auto {
+  background: var(--color-bg-input);
+  color: var(--color-text-body);
+  width: 160rpx;
+  flex-shrink: 0;
+}
+
+.ctrl-btn.auto-active {
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--color-primary);
+}
+
+.ctrl-btn.next {
+  flex: 1;
+  background: var(--color-text-title);
+  color: #FFFFFF;
+}
+
+.btn-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+

@@ -1,0 +1,236 @@
+.page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-bg-page);
+}
+
+.fixed-header {
+  flex-shrink: 0;
+  padding: 0 var(--page-padding);
+  background: var(--color-bg-page);
+  z-index: 2;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.scroll-content {
+  padding: 0 var(--page-padding) calc(env(safe-area-inset-bottom) + 64rpx);
+}
+
+.status-bar-placeholder {
+  width: 100%;
+}
+
+.nav-row {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  margin-left: -24rpx;
+}
+
+.back-icon {
+  width: 48rpx;
+  height: 48rpx;
+  padding: 24rpx;
+}
+
+/* ===== 分数展示 ===== */
+.score-section {
+  text-align: center;
+  padding: 48rpx 0 32rpx;
+}
+
+.score-num {
+  display: block;
+  font-size: 120rpx;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.score-label {
+  display: block;
+  margin-top: 16rpx;
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--color-text-title);
+}
+
+.age-text {
+  display: block;
+  margin-top: 8rpx;
+  font-size: var(--font-base);
+  color: var(--color-text-secondary);
+}
+
+/* ===== 属性卡片 ===== */
+.attrs-card {
+  background: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  padding: 32rpx;
+  box-shadow: var(--shadow-sm);
+}
+
+.attrs-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.attr-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.attr-circle {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 50%;
+  background: var(--color-bg-page);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.attr-circle-val {
+  font-size: var(--font-lg);
+  font-weight: 800;
+  color: var(--color-text-title);
+}
+
+.attr-item-label {
+  font-size: var(--font-xs);
+  color: var(--color-text-secondary);
+}
+
+/* ===== AI 总结 ===== */
+.summary-section {
+  margin-top: var(--space-lg);
+}
+
+.section-title {
+  display: block;
+  font-size: var(--font-md);
+  font-weight: 700;
+  color: var(--color-text-title);
+  margin-bottom: var(--space-md);
+}
+
+.summary-body {
+  background: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  padding: 32rpx;
+  box-shadow: var(--shadow-sm);
+  min-height: 160rpx;
+}
+
+.summary-text {
+  font-size: var(--font-base);
+  color: var(--color-text-body);
+  line-height: 2;
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 4rpx;
+  height: 28rpx;
+  background: var(--color-primary);
+  margin-left: 4rpx;
+  animation: blink 0.8s infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===== 大事记 ===== */
+.events-section {
+  margin-top: var(--space-lg);
+}
+
+.events-list {
+  background: var(--color-bg-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.event-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid var(--color-divider);
+}
+
+.event-row:last-child {
+  border-bottom: none;
+}
+
+.event-age {
+  width: 80rpx;
+  flex-shrink: 0;
+  font-size: var(--font-sm);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.event-text {
+  flex: 1;
+  font-size: var(--font-base);
+  color: var(--color-text-body);
+  line-height: 1.6;
+}
+
+/* ===== 底部操作 ===== */
+.bottom-actions {
+  margin-top: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.share-btn {
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: var(--radius-xl) !important;
+  background: var(--color-text-title) !important;
+  color: #FFFFFF !important;
+  font-size: var(--font-base) !important;
+  font-weight: 600 !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: center;
+  letter-spacing: 2rpx;
+}
+
+.share-btn::after {
+  border: none;
+}
+
+.share-btn:active {
+  opacity: 0.85;
+}
+
+.restart-btn {
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-input);
+  color: var(--color-text-body);
+  font-size: var(--font-base);
+  font-weight: 500;
+  text-align: center;
+}
+
+.restart-btn:active {
+  background: var(--color-border);
+}
