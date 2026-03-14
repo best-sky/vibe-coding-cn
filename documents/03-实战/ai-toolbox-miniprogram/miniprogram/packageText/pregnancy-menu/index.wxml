@@ -1,0 +1,104 @@
+<view class="page safe-area-bottom">
+  <view class="fixed-header">
+    <view class="status-bar-placeholder" style="height: {{statusBarHeight}}px;"></view>
+    <view class="nav-row" bindtap="onBack">
+      <image class="back-icon" src="/assets/icons/arrow-left.svg" mode="aspectFit"></image>
+    </view>
+
+    <text class="title">孕期菜谱</text>
+    <text class="sub">选择孕期阶段，AI 为你定制一周营养菜谱</text>
+  </view>
+
+  <scroll-view class="scroll" scroll-y>
+    <view class="scroll-content">
+      <text class="label">孕期阶段</text>
+      <view class="chip-row">
+        <view
+          wx:for="{{trimesters}}"
+          wx:key="*this"
+          class="chip {{activeTrimester === item ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="onSelectTrimester"
+        >
+          {{item}}
+        </view>
+      </view>
+
+      <view class="input-wrap">
+        <textarea
+          class="input"
+          maxlength="-1"
+          placeholder="可选：输入饮食偏好或禁忌，如素食、不吃辣、对海鲜过敏等"
+          placeholder-class="placeholder"
+          value="{{preference}}"
+          bindinput="onInput"
+        ></textarea>
+      </view>
+
+      <view class="btn-row">
+        <view class="primary-btn action-btn {{loading ? 'btn-disabled' : ''}}" bindtap="onGenerate">
+          {{loading ? '生成中...' : '生成一周菜谱'}}
+        </view>
+      </view>
+
+      <block wx:if="{{menuDays.length > 0}}">
+        <text class="label">一周菜谱</text>
+
+        <scroll-view class="day-tabs" scroll-x enable-flex>
+          <view
+            wx:for="{{menuDays}}"
+            wx:key="day"
+            class="day-tab {{activeDay === index ? 'day-tab-active' : ''}}"
+            data-index="{{index}}"
+            bindtap="onSelectDay"
+          >
+            {{item.day}}
+          </view>
+        </scroll-view>
+
+        <view class="menu-card" wx:if="{{menuDays[activeDay]}}">
+          <view class="meal-item">
+            <view class="meal-tag tag-breakfast">早餐</view>
+            <text class="meal-text">{{menuDays[activeDay].breakfast}}</text>
+          </view>
+          <view class="meal-divider"></view>
+          <view class="meal-item">
+            <view class="meal-tag tag-lunch">午餐</view>
+            <text class="meal-text">{{menuDays[activeDay].lunch}}</text>
+          </view>
+          <view class="meal-divider"></view>
+          <view class="meal-item">
+            <view class="meal-tag tag-dinner">晚餐</view>
+            <text class="meal-text">{{menuDays[activeDay].dinner}}</text>
+          </view>
+          <view class="meal-divider"></view>
+          <view class="meal-item">
+            <view class="meal-tag tag-snack">加餐</view>
+            <text class="meal-text">{{menuDays[activeDay].snack}}</text>
+          </view>
+          <view wx:if="{{menuDays[activeDay].nutrition}}" class="nutrition-box">
+            <text class="nutrition-text">{{menuDays[activeDay].nutrition}}</text>
+          </view>
+        </view>
+
+        <view class="copy-row">
+          <view class="copy-btn" data-index="{{activeDay}}" bindtap="onCopyDay">复制当天</view>
+          <view class="copy-btn copy-btn-all" bindtap="onCopyAll">复制全部</view>
+        </view>
+      </block>
+
+      <block wx:if="{{isGenerating && menuDays.length === 0}}">
+        <view class="generating-card">
+          <text class="generating-text">正在为你生成菜谱...</text>
+          <view class="thinking">
+            <view class="thinking__dot"></view>
+            <view class="thinking__dot"></view>
+            <view class="thinking__dot"></view>
+          </view>
+        </view>
+      </block>
+
+      <view wx:if="{{!menuDays.length && !loading && !isGenerating}}" class="empty">选择孕期阶段，让 AI 为你定制菜谱</view>
+    </view>
+  </scroll-view>
+</view>

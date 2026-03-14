@@ -127,6 +127,22 @@ const TOOL_LIST = [
     icon: "gamepad",
   },
   {
+    id: "dream-interpret",
+    name: "AI 解梦",
+    desc: "输入梦境，AI 为你解读",
+    category: "text",
+    path: "/packageText/dream-interpret/index",
+    icon: "moon",
+  },
+  {
+    id: "pregnancy-menu",
+    name: "孕期菜谱",
+    desc: "一键生成一周营养菜谱",
+    category: "text",
+    path: "/packageText/pregnancy-menu/index",
+    icon: "utensils",
+  },
+  {
     id: "coming-soon",
     name: "更多工具",
     desc: "持续上新中",
@@ -153,6 +169,8 @@ const AGENT_IDS = {
   copywriting: "ibot-zhiku-i8z7bi",
   naming: "ibot-zhiku-i8z7bi",
   nickname: "ibot-zhiku-i8z7bi",
+  "dream-interpret": "ibot-zhiku-i8z7bi",
+  "pregnancy-menu": "ibot-zhiku-i8z7bi",
 };
 
 module.exports = {

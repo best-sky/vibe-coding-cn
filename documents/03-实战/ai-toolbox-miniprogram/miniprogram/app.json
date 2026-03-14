@@ -7,7 +7,7 @@
     },
     {
       "root": "packageText",
-      "pages": ["copywriting/index", "naming/index", "nickname/index", "life-simulator/index", "life-summary/index"]
+      "pages": ["copywriting/index", "naming/index", "nickname/index", "life-simulator/index", "life-summary/index", "dream-interpret/index", "pregnancy-menu/index"]
     },
     {
       "root": "packageUtil",
