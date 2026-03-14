@@ -25,6 +25,8 @@ function saveHistory(item) {
 Page({
   data: {
     statusBarHeight: 44,
+    canvasW: 1,
+    canvasH: 1,
     styles: PET_STYLES,
     petTypes: PET_TYPES,
     selectedStyle: "",
@@ -122,24 +124,71 @@ Page({
     }
   },
 
+  _saveToAlbum(filePath) {
+    wx.saveImageToPhotosAlbum({
+      filePath,
+      success: () => wx.showToast({ title: "已保存到相册", icon: "success" }),
+      fail: (err) => {
+        if (err.errMsg && err.errMsg.includes("auth deny")) {
+          wx.showModal({
+            title: "需要相册权限",
+            content: "请在设置中允许保存图片到相册",
+            confirmText: "去设置",
+            success: (modalRes) => {
+              if (modalRes.confirm) wx.openSetting();
+            },
+          });
+        } else {
+          wx.showToast({ title: "保存失败", icon: "none" });
+        }
+      },
+    });
+  },
+
   onSaveImage() {
     if (!this.data.resultImage) return;
-    wx.getImageInfo({
-      src: this.data.resultImage,
-      success: (info) => {
-        wx.saveImageToPhotosAlbum({
-          filePath: info.path,
-          success: () => {
-            wx.showToast({ title: "已保存到相册", icon: "success" });
+    const imgUrl = this.data.resultImage;
+
+    wx.showLoading({ title: "保存中…" });
+
+    if (!imgUrl.startsWith("http") || imgUrl.startsWith("http://tmp/")) {
+      wx.hideLoading();
+      this._saveToAlbum(imgUrl);
+      return;
+    }
+
+    const query = this.createSelectorQuery();
+    query.select("#saveCanvas").fields({ node: true, size: true }).exec((res) => {
+      if (!res || !res[0] || !res[0].node) {
+        wx.hideLoading();
+        wx.showToast({ title: "保存失败", icon: "none" });
+        return;
+      }
+      const canvas = res[0].node;
+      const img = canvas.createImage();
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        this.setData({ canvasW: img.width, canvasH: img.height });
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        wx.canvasToTempFilePath({
+          canvas,
+          success: (tmpRes) => {
+            wx.hideLoading();
+            this._saveToAlbum(tmpRes.tempFilePath);
           },
           fail: () => {
+            wx.hideLoading();
             wx.showToast({ title: "保存失败", icon: "none" });
           },
         });
-      },
-      fail: () => {
+      };
+      img.onerror = () => {
+        wx.hideLoading();
         wx.showToast({ title: "图片加载失败", icon: "none" });
-      },
+      };
+      img.src = imgUrl;
     });
   },
 

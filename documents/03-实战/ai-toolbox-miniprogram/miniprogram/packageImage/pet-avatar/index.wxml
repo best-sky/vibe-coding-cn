@@ -92,4 +92,6 @@
       </view>
     </view>
   </scroll-view>
+
+  <canvas type="2d" id="saveCanvas" style="position:fixed;left:-9999px;top:0;width:{{canvasW}}px;height:{{canvasH}}px;"></canvas>
 </view>
