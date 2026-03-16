@@ -43,6 +43,7 @@
       "outputPath": ""
     }
   },
+  "cloudfunctionRoot": "cloudfunctions/",
   "miniprogramRoot": "miniprogram/",
   "compileType": "miniprogram",
   "libVersion": "3.7.1",

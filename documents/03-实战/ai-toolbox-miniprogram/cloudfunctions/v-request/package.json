@@ -1,0 +1,10 @@
+{
+  "name": "v-request",
+  "version": "1.0.0",
+  "description": "突破小程序网络请求限制的云函数代理",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3",
+    "axios": "^1.7.0"
+  }
+}
