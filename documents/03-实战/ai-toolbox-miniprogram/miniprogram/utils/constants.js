@@ -143,6 +143,14 @@ const TOOL_LIST = [
     icon: "utensils",
   },
   {
+    id: "v-request-test",
+    name: "接口测试",
+    desc: "v-request 三方接口测试",
+    category: "util",
+    path: "/packageUtil/v-request-test/index",
+    icon: "zap",
+  },
+  {
     id: "coming-soon",
     name: "更多工具",
     desc: "持续上新中",

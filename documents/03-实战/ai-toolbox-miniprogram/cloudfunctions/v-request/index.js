@@ -14,7 +14,7 @@ exports.main = async (event) => {
     url: options.url,
     method: (options.method || "GET").toUpperCase(),
     headers: options.headers || {},
-    timeout: options.timeout || 15000,
+    timeout: options.timeout || 55000,
     responseType: "text",
     validateStatus: () => true,
   };

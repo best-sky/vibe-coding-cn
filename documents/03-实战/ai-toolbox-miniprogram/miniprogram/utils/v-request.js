@@ -29,7 +29,7 @@ function vrequest(options) {
           method: merged.method.toUpperCase(),
           headers: merged.header,
           body: body,
-          timeout: merged.timeout || 15000,
+          timeout: merged.timeout || 55000,
         },
       },
       success(res) {

@@ -11,7 +11,7 @@
     },
     {
       "root": "packageUtil",
-      "pages": ["word-count/index", "qrcode/index", "password/index", "subsidy/index", "tax-calculator/index", "relative-calc/index"]
+      "pages": ["word-count/index", "qrcode/index", "password/index", "subsidy/index", "tax-calculator/index", "relative-calc/index", "v-request-test/index"]
     }
   ],
   "useExtendedLib": {
